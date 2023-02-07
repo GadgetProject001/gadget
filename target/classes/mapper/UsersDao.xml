@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectUserByWspace" resultType="kr.or.gadget.dto.Users">
 		select userid,imgurl,username from users
-		where userid in(select userid from wspace where spaceid = #{spaceid})
+		where userid in(select userid from team where spaceid = #{spaceid})
 	</select>
 	
 	<select id="selectUserByUserid" resultType="kr.or.gadget.dto.Users">

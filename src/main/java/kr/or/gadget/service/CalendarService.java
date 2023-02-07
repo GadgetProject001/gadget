@@ -33,7 +33,12 @@ public class CalendarService {
 	
 	public int updateCalendar(Calendar calendar) {
 		CalendarDao caldao = sqlsession.getMapper(CalendarDao.class);
-		return caldao.updateCalendar(calendar);
+		try {
+			return caldao.updateCalendar(calendar);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public int deleteCalendar(int id) {

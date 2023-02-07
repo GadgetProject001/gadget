@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,21 +50,25 @@ public class CalendarController {
 		List<Calendar> list = new ArrayList<Calendar>();
 		try {
 			calendar.setSpaceid(spaceid);
+			System.out.println("spaceid 입력");
 			service.insertCalendar(calendar);
 			list = service.calendarList(spaceid);
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.OK);
 		} catch (Exception e) {
+			System.out.println("입력실패");
+			e.printStackTrace();
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	//일정수정
-	@PutMapping(value = "/{spaceid}")
+	@PatchMapping(value = "/{spaceid}")
 	public ResponseEntity<List<Calendar>> updateCalendar(@PathVariable("spaceid")int spaceid, @RequestBody Calendar calendar){
 		List<Calendar> list = new ArrayList<Calendar>();
 		try {
 			System.out.println("update 실행");
 			calendar.setSpaceid(spaceid);
+			System.out.println(calendar.toString());
 			service.updateCalendar(calendar);
 			list = service.calendarList(spaceid);
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.OK);
