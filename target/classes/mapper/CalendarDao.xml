@@ -17,13 +17,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<insert id="insertCalendar" parameterType="kr.or.gadget.dto.Calendar">
 		insert into calendar
-		(groupId, title, writer, userid, content, `start`, `end`,
+		(id, groupId, title, writer, userid, content, `start`, `end`,
 		ALLDAY,
 		TEXTCOLOR,
 		BACKGROUNDCOLOR,
 		BORDERCOLOR,
 		spaceid)
 			values(
+			#{id},
 			MD5(UUID()),
 			#{title},#{writer},#{userid},#{content},
 			STR_TO_DATE(#{start},'%Y-%m-%dT%H:%i:%S'),
@@ -37,8 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateCalendar" parameterType="kr.or.gadget.dto.Calendar">
 		update calendar
 		set title=#{title}, content=#{content}, 
-			`start`=STR_TO_DATE(#{start},'%Y-%m-%dT%H:%i:%S'), 
-			`end`=STR_TO_DATE(#{end},'%Y-%m-%dT%H:%i:%S'),
+			`start`=(SELECT CONVERT(#{start},DATETIME) from dual), 
+			`end`=(SELECT CONVERT(#{end},DATETIME) from dual),
 			allDay=#{allday},
 			textColor=#{textColor},
 			backgroundColor=#{backgroundColor},
@@ -48,4 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteCalendar">
 		delete from calendar where id= #{id}
 	</delete>
+	<select id="selectId" resultType="int">
+		select max(id)+1 from calendar
+	</select>
 </mapper>

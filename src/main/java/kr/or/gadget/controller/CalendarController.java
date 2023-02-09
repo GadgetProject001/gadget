@@ -92,4 +92,17 @@ public class CalendarController {
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}
+	//특정 워크스페이스의 캘린더정보 전부 가져오기
+	@GetMapping(value = "/id")
+	public ResponseEntity<Integer> selectId() {
+		int id = 0;
+		try {
+			System.out.println("id 가져오기");
+			id = service.selectId();
+			System.out.println("id: " + id);
+			return new ResponseEntity<Integer>(id,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Integer>(id,HttpStatus.BAD_REQUEST);
+		}
+	}
  }

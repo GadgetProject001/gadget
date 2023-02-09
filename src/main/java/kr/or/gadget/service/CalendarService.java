@@ -22,7 +22,7 @@ public class CalendarService {
 	public List<Calendar> calendarList(int spaceid){
 		CalendarDao caldao = sqlsession.getMapper(CalendarDao.class);
 		//List<Calendar> list = caldao.calendarList(spaceid);
-		List<Calendar> list = caldao.calendarList(1);
+		List<Calendar> list = caldao.calendarList(spaceid);
 		return list;
 	}
 	
@@ -44,5 +44,11 @@ public class CalendarService {
 	public int deleteCalendar(int id) {
 		CalendarDao caldao = sqlsession.getMapper(CalendarDao.class);
 		return caldao.deleteCalendar(id);
+	}
+	
+	public int selectId() {
+		System.out.println("서비스 실행");
+		CalendarDao caldao = sqlsession.getMapper(CalendarDao.class);
+		return caldao.selectId();
 	}
 }
