@@ -211,6 +211,20 @@
 	         <version>4.2.20.RELEASE</version>
 	    </dependency>
 	    
+	    <!-- 웹소켓 -->
+		  <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-websocket</artifactId>
+	        <version>4.3.22.RELEASE</version>
+        </dependency>
+        
+        <dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>2.9.6</version>
+        </dependency>
+	    
+	    
 	    <!-- 인터페이스 없이도 Transactional 사용 가능 -->
 		<dependency>
 			<groupId>cglib</groupId>
