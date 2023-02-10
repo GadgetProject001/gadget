@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping(value = "/chat")
 public class ChatController {
 	//채팅방 입장
-		@RequestMapping(value="/chat.do" , method = RequestMethod.GET)
+		@RequestMapping(value="/room" , method = RequestMethod.GET)
 		public String view_chat(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 			return "view_chat";
 		}
