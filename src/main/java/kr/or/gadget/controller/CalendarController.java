@@ -56,7 +56,7 @@ public class CalendarController {
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println("입력실패");
-			e.printStackTrace();
+			//e.printStackTrace();
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}

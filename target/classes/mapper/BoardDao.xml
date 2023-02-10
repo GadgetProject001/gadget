@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.gadget.dao.BoardDao">
+	<insert id="writeBoard" parameterType="kr.or.gadget.dto.Board">
+		insert into 
+		board(title, content, writer, wdate, udate, repnum, bcodeid, spaceid, userid) 
+		values(#{title}, #{content}, #{writer}, now(), now(), 0, #{bcodeid}, #{spaceid}, #{userid})
+	</insert>
+	
+	<select id="selectBoardList" resultType="kr.or.gadget.dto.Board">
+		select * from (
+			select boardid, title, writer, wdate, udate, repnum
+		    from board 
+		    where spaceid = #{spaceid} and bcodeid=#{bcodeid} 
+		    order by boardid desc) as T1 
+		limit #{skip}, #{amount}
+	</select>
+	
+	<select id="selectBoardByid" resultType="kr.or.gadget.dto.Board">
+		select boardid, title, content, writer, wdate, udate, repnum, bcodeid, spaceid, userid
+		    from board where boardid=#{boardid}
+	</select>
+	
+	<select id="getAttachListbyid" resultType="kr.or.gadget.dto.Attach">
+		select uuid, uploadpath, filename, filetype, boardid
+		from attach
+		where boardid = #{boardid}
+	</select>
+	
+	<insert id="insertAttach" parameterType="kr.or.gadget.dto.Attach">
+		insert into
+		attach(uuid, uploadpath, filename, filetype, boardid)
+		value(MD5(UUID()), #{uploadpath}, #{filename}, #{filetype}, #{boardid})
+	</insert>
+	
+	<update id="modifyBoard" parameterType="kr.or.gadget.dto.Board">
+		update board 
+		set title=#{title}, content=#{content}, udate=now() 
+		where boardid=#{boardid}
+	</update>
+	
+	<delete id="deleteAttach">
+		delete from attach where boardid= #{boardid}
+	</delete>
+	
+	<delete id="deleteBoard">
+		delete from board where boardid=#{boardid}
+	</delete> 
+</mapper>
