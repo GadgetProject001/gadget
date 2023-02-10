@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <mapper namespace="kr.or.gadget.dao.StateDao">
+	<insert id="insertState" parameterType="kr.or.gadget.dto.State">
+		insert into emp(empno,ename,sal) values(#{empno}, #{ename}, #{sal})
+	</insert>
+	
+	<select id="select" resultType="kr.or.gadget.dto.State">
+		select empno, ename, sal from emp 
+	</select>
+	
+	<select id="selectBySpaceid" resultType="kr.or.gadget.dto.State">
+		select empno, ename, sal from emp where empno=#{empno}
+	</select>
+	
+	<update id="updateState" parameterType="kr.or.gadget.dto.State">
+		update emp set ename=#{ename}, sal=#{sal} where empno = #{empno}
+	</update>
+	
+	<delete id="deleteState">
+		delete from emp where empno= #{empno}
+	</delete>
+</mapper> -->
+
+<mapper namespace="kr.or.gadget.dao.TodoDao">
+	<select id="selectTodoList" resultType="kr.or.gadget.dto.TodoContentJoinState">
+		select td.contentid, td.title, td.content, td.startdate, td.enddate, st.statename, DATE_FORMAT(td.wdate, '%Y-%m-%d %T') as wdate
+		from todocontent as td inner join state as st
+		where td.stateid = st.stateid and spaceid = #{spaceid}
+	</select>
+	
+	<update id="updateTodoState" parameterType="kr.or.gadget.dto.TodoContentJoinState">
+	   update todocontent
+	   set stateid = (select stateid 
+						from state
+						where spaceid = #{spaceid} and statename = #{statename})
+	  where contentid = #{contentid};
+	</update>
+	
+	<update id="updateStateIndex" parameterType="kr.or.gadget.dto.State">
+	    update state
+		set stateindex = #{stateindex}
+		where spaceid = #{spaceid} and statename = #{statename};
+	</update>
+	
+	<select id="selectTodoContent" resultType="kr.or.gadget.dto.TodoContentJoinState">
+		select td.contentid, td.title, td.content, td.startdate, td.enddate, st.statename, DATE_FORMAT(td.wdate, '%Y-%m-%d %T') as wdate
+		from todocontent as td inner join state as st
+		where td.stateid = st.stateid and td.contentid = #{td.contentid};
+	</select>
+	
+</mapper>
