@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="kr.or.gadget.dao.UsersDao">
 	<insert id="createUser" parameterType="kr.or.gadget.dto.Users">
 		insert into 
-		users(userid,imgurl,username,regdate,lastdate,callnum,email,enabled) 
+		users(userid,pwd,imgurl,username,regdate,lastdate,callnum,email,enabled) 
 		values(#{userid}, #{imgurl}, #{username}, now(), now(), #{callnum}, #{email}, 1)
 	</insert>
 	
@@ -28,4 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteUser">
 		delete from users where userid= #{userid}
 	</delete>
+	
+	<select id="selectPwUser" resultType="kr.or.gadget.dto.Users">
+		select count(userid) from users
+		where userid = #{userid} and pwd = #{pwd}
+	</select>
 </mapper>

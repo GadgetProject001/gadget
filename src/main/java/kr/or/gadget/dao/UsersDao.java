@@ -15,4 +15,6 @@ public interface UsersDao {
 	int updateUser(Users users);
 	//사용자 삭제
 	int deleteUser(String userid);
+	//사용자 비번 확인
+	int selectPwUser(Users users);
 }

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.or.gadget.dao.UsersDao">
-	<insert id="createUser" parameterType="kr.or.gadget.dto.Users">
+<mapper namespace="kr.or.gadget.dao.WspaceDao">
+	<!-- <insert id="createspace" parameterType="kr.or.gadget.dto.Wspace">
 		insert into 
 		users(userid,pwd,imgurl,username,regdate,lastdate,callnum,email,enabled) 
 		values(#{userid}, #{imgurl}, #{username}, now(), now(), #{callnum}, #{email}, 1)
@@ -32,5 +32,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectPwUser" resultType="kr.or.gadget.dto.Users">
 		select count(userid) from users
 		where userid = #{userid} and pwd = #{pwd}
-	</select>
+	</select> -->
 </mapper>
