@@ -265,8 +265,19 @@ main footer a{
 				$('#message').val('');
 			},
 			receiveMessage: function(str) {
-				$('.you').append('<div class="entete">'+'<h3>10:12AM, Today</h3>'+'<h2>Vincent</h2>'+ '<span class="status blue"></span>' +'<div class = "message">'+ str + '</div>' + '</div>');	
+				$('#chat').append(
+						'<li class="you">'
+						+'<div class="entete">'
+						+ '<span class="status green"></span>'
+						+'<h2>Vincent</h2>'
+						+'&nbsp'
+						+'<h3>10:12AM, Today</h3>'
+						+'</div>'
+						+'<div class = "message">'+ str + '</div>' + '</li>');	
 			},
+			
+		
+			
 			closeMessage: function(str) {
 				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
 			},
