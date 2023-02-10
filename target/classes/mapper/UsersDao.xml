@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.gadget.dao.UsersDao">
+	<insert id="createUser" parameterType="kr.or.gadget.dto.Users">
+		insert into 
+		users(userid,imgurl,username,regdate,lastdate,callnum,email,enabled) 
+		values(#{userid}, #{imgurl}, #{username}, now(), now(), #{callnum}, #{email}, 1)
+	</insert>
+	
+	<select id="selectUserByWspace" resultType="kr.or.gadget.dto.Users">
+		select userid,imgurl,username from users
+		where userid in(select userid from team where spaceid = #{spaceid})
+	</select>
+	
+	<select id="selectUserByUserid" resultType="kr.or.gadget.dto.Users">
+		select userid,imgurl,username,regdate,callnum,email
+		from users where userid=#{userid}
+	</select>
+	
+	<update id="updateUser" parameterType="kr.or.gadget.dto.Users">
+		update users 
+		set imgurl=#{imgurl}, username=#{username}, callnum=#{callnum}, email=#{email} 
+		where userid = #{userid}
+	</update>
+	
+	<delete id="deleteUser">
+		delete from users where userid= #{userid}
+	</delete>
+</mapper>
