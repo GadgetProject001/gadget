@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.gadget.dao.WspaceDao">
-	<insert id="createspace" parameterType="HashMap">
+	<insert id="createspace" parameterType="kr.or.gadget.dto.Space">
 		{
 		call create_space_procedure(
 			#{space_id},
@@ -13,25 +13,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			)
 		}
 	</insert>
-	<!--
-	<select id="selectUserByWspace" resultType="kr.or.gadget.dto.Users">
-		select userid,imgurl,username from users
-		where userid in(select userid from team where spaceid = #{spaceid})
+	
+	<select id="selectWspace" resultType="kr.or.gadget.dto.Wspace">
+		select spaceid, spacename from wspace
+		where spaceid in(select spaceid from team where userid = #{userid})
 	</select>
 	
-	<select id="selectUserByUserid" resultType="kr.or.gadget.dto.Users">
-		select userid,imgurl,username,regdate,callnum,email
-		from users where userid=#{userid}
+	<select id="selectSideByWspaceid" resultType="kr.or.gadget.dto.Side">
+		select s.sideid, s.spaceid, s.bcodeid, c.bcodename, s.sideidx
+		from side s join bcode c on c.bcodeid = s.bcodeid
+		where spaceid = #{spaceid}
 	</select>
 	
-	<update id="updateUser" parameterType="kr.or.gadget.dto.Users">
-		update users 
-		set imgurl=#{imgurl}, username=#{username}, callnum=#{callnum}, email=#{email} 
-		where userid = #{userid}
+	<update id="updateSpaceName" parameterType="kr.or.gadget.dto.Wspace">
+		update wspace 
+		set spacename=#{spacename}
+		where spaceid = #{spaceid}
 	</update>
-	
-	<delete id="deleteUser">
-		delete from users where userid= #{userid}
+	<!--
+	<delete id="deleteSpace">프로시져 사용해야 할 수 있음
+		delete from wspace where spaceid= #{spaceid}
 	</delete>
 	
 	<select id="selectPwUser" resultType="kr.or.gadget.dto.Users">
