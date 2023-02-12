@@ -277,9 +277,6 @@
 						+ '</li>'
 						);	
 			},
-			
-		
-			
 			closeMessage: function(str) {
 				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
 			},
