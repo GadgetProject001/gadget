@@ -15,4 +15,10 @@ public interface UsersDao {
 	int updateUser(Users users);
 	//사용자 삭제
 	int deleteUser(String userid);
+	
+	Users selectUser(String userid);
+	
+	int insertUser(Users users);
+	
+	int updateUserLastDate(String userid);
 }
