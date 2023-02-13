@@ -2,6 +2,7 @@ package kr.or.gadget.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import kr.or.gadget.dao.BoardDao;
 import kr.or.gadget.dto.Attach;
 import kr.or.gadget.dto.Board;
 import kr.or.gadget.dto.Criteria;
+import kr.or.gadget.dto.Reply;
 import lombok.Setter;
 
 @Service
@@ -67,5 +69,36 @@ public class BoardService {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
 		//boarddao.deleteAttach(boardid);
 		return boarddao.deleteBoard(boardid);
+	}
+	
+	public int getTotalCount(Criteria cri) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		return boarddao.getTotalCount(cri);
+	};
+	
+	public void updateReplyCnt(@Param("boardid") int boardid, @Param("amount") int amount) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		boarddao.updateReplyCnt(boardid, amount);
+	}
+	
+	public List<Reply> selectReplyByBoardid(Criteria cri) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		List<Reply> list = boarddao.selectReplyByBoardid(cri);
+		return list;
+	}
+	
+	public void writeReply(Reply reply) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		boarddao.writeReply(reply);
+	}
+	
+	public int modifyReply(Reply reply) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		return boarddao.modifyReply(reply);
+	}
+	
+	public int deleteReply(int replyid) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		return boarddao.deleteReply(replyid);
 	}
 }

@@ -48,4 +48,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteBoard">
 		delete from board where boardid=#{boardid}
 	</delete> 
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(boardid) FROM board WHERE bcodeid = #{bcodeid};
+	</select>
+	
+	<update id="updateReplyCnt" parameterType="kr.or.gadget.dto.Board">
+		update board
+		set repnum = (select count(replyid) from reply where boardid = #{boardid})
+		where boardid = #{boardid}
+	</update>
+	
+	<select id="selectReplyByBoardid" resultType="kr.or.gadget.dto.Reply">
+		select replyid, content, writer, wdate, boardid, userid from
+			(SELECT replyid, content, writer, wdate, boardid, userid 
+			FROM reply WHERE boardid = #{boardid} order by replyid desc)as T2 
+		limit #{skip}, #{amount}
+	</select>
+	
+	<insert id="writeReply" parameterType="kr.or.gadget.dto.Reply">
+		insert into 
+		reply(content, writer, wdate, boardid, userid)
+		value(#{content}, #{writer}, now(), #{boardid}, #{userid})
+	</insert>
+	
+	<update id="modifyReply" parameterType="kr.or.gadget.dto.Reply"> 
+		update reply
+		set content = #{content} where replyid = #{replyid}
+	</update>
+	
+	<delete id="deleteReply">
+		delete from reply where replyid = #{replyid}
+	</delete>
 </mapper>

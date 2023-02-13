@@ -6,6 +6,7 @@ import lombok.Data;
 public class Users {
 
 	private String userid;
+	private String pwd;
 	private String imgurl;
 	private String username;
 	private String regdate;
