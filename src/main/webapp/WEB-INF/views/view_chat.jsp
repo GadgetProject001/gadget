@@ -260,11 +260,18 @@ main footer a{
 				this._initSocket();
 				//this._sendMessage($('#name').val()+'님이 접속하셨습니다.');
 			},
-			sendChat: function() {
+			sendChat: function() {//메세지 보내기 
 				this._sendMessage($('#message').val());
 				$('#message').val('');
 			},
-			receiveMessage: function(str) {
+			receiveMessage: function(str) {//메세지 받기
+				
+				let message = JSON.parse(chat.body);
+				let userid = messge.userid;
+				
+				console.log("message: " + message);
+				
+				if(userid == username){
 				$('#chat').append(
 						'<li class="me">'
 						+'<div class="entete">'
@@ -275,8 +282,75 @@ main footer a{
 						+'</div>'
 						+'<div class = "message">'+ str + '</div>' 
 						+ '</li>'
+<<<<<<< Updated upstream
 						);
 			},
+=======
+						);	
+				} else{
+					$('#chat').append(
+							'<li class="you">'
+							+'<div class="entete">'
+							+'<h3>10:12AM, Today</h3>'
+							+'&nbsp;'
+							+'<h2> Vincent</h2>'
+							+'<span class="status blue"></span>'
+							+'</div>'
+							+'<div class = "message">'+ str + '</div>' 
+							+ '</li>'
+							);	
+					
+				}
+			},
+			
+			/* load: function PreMessage(roomno){//불러오기?
+				let requestdata = {"roomno" : roomno};
+				let data = JSON.stringify(requestdata);
+				$.ajax({
+					type: "post",
+					url: "preRoom.htm",
+					data: data,
+					dataType: "text",
+					contentType: "application/json; charset=utf-8",
+					success: function(data1){
+						
+						let data =JSON.parse(data1);
+						
+						$.each(data, function(){
+							if(userid == username){
+								$('#chat').append(
+										'<li class="me">'
+										+'<div class="entete">'
+										+'<h3>10:12AM, Today</h3>'
+										+'&nbsp;'
+										+'<h2> Vincent</h2>'
+										+'<span class="status blue"></span>'
+										+'</div>'
+										+'<div class = "message">'+ str + '</div>' 
+										+ '</li>'
+										);	
+								} else{
+									$('#chat').append(
+											'<li class="you">'
+											+'<div class="entete">'
+											+'<h3>10:12AM, Today</h3>'
+											+'&nbsp;'
+											+'<h2> Vincent</h2>'
+											+'<span class="status blue"></span>'
+											+'</div>'
+											+'<div class = "message">'+ str + '</div>' 
+											+ '</li>'
+											);	
+									
+								}
+							
+						});
+					}
+					
+				});
+			}, */
+			
+>>>>>>> Stashed changes
 			closeMessage: function(str) {
 				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
 			},
