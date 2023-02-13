@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ChatController {
 	//채팅방 입장
-		@RequestMapping(value="/chat.do" , method = RequestMethod.GET)
+		@RequestMapping(value="/chat/room" , method = RequestMethod.GET)
 		public String view_chat(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 			return "view_chat";
 		}
