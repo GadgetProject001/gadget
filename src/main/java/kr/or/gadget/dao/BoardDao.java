@@ -2,9 +2,12 @@ package kr.or.gadget.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import kr.or.gadget.dto.Attach;
 import kr.or.gadget.dto.Board;
 import kr.or.gadget.dto.Criteria;
+import kr.or.gadget.dto.Reply;
 
 public interface BoardDao {
 	//특정항목의 글 목록 출력
@@ -23,4 +26,16 @@ public interface BoardDao {
 	void deleteAttach(int boardid);
 	//글 삭제하기
 	int deleteBoard(int boardid);
+	//글 총 갯수 가져오기
+	int getTotalCount(Criteria cri);
+	//댓글 작성하기
+	void writeReply(Reply reply);
+	//댓글 수정하기
+	int modifyReply(Reply reply);
+	//댓글 삭제하기
+	int deleteReply(int replyid);
+	//댓글 수 갱신
+	void updateReplyCnt(@Param("boardid") int boardid, @Param("amount") int amount);
+	//댓글 가져오기
+	List<Reply> selectReplyByBoardid(Criteria cri);
 }

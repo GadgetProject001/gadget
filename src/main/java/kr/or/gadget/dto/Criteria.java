@@ -6,6 +6,8 @@ import lombok.Data;
 public class Criteria {
 	/* 게시판 코드 */
 	private int bcodeid;
+	/* 게시판 id */
+	private int boardid;
 	/* 워크스페이스 종류 */
 	private int spaceid;
 	/* 현재 페이지 */

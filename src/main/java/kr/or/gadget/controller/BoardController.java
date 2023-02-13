@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.or.gadget.dto.Board;
 import kr.or.gadget.dto.Criteria;
+import kr.or.gadget.dto.Reply;
 import kr.or.gadget.service.BoardService;
 
 @RestController
@@ -64,6 +66,7 @@ public class BoardController {
 	public ResponseEntity<List<Board>> writeBoard(@PathVariable("spaceid") int spaceid, @RequestBody Board board) {
 		List<Board> list = new ArrayList<Board>();
 		try {
+			System.out.println(list.toString());
 			service.writeBoard(board);
 			Criteria cri = new Criteria();
 			list = service.selectBoardList(cri);
@@ -88,16 +91,72 @@ public class BoardController {
 	}
 	
 	//글 삭제하기
-	@DeleteMapping(value = "/{spaceid}/detail")
-	public ResponseEntity<List<Board>> deleteBoard(@PathVariable("spaceid") int spaceid, @RequestBody Board board) {
+	@DeleteMapping(value = "/delete/{boardid}")
+	public ResponseEntity<List<Board>> deleteBoard(@PathVariable("boardid") int boardid) {
 		List<Board> list = new ArrayList<Board>();
 		try {
-			service.deleteBoard(board.getBoardid());
+			service.deleteBoard(boardid);
 			Criteria cri = new Criteria();
 			list = service.selectBoardList(cri);
 			return new ResponseEntity<List<Board>>(list,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<Board>>(list,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping(value = "reply/count")
+	public int getTotalCount(Criteria cri) {
+		return service.getTotalCount(cri);
+	}
+	
+	@GetMapping(value = "/reply/{boardid}")
+	public ResponseEntity<List<Reply>> selectReplyByBoardid(@PathVariable("boardid") int boardid) {
+		List<Reply> list = new ArrayList<Reply>();
+		try {
+			Criteria cri = new Criteria();
+			list = service.selectReplyByBoardid(cri);
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping(value = "/reply")
+	public ResponseEntity<List<Reply>> writeReply(@RequestBody Reply reply) {
+		List<Reply> list = new ArrayList<Reply>();
+		try {
+			service.writeReply(reply);
+			Criteria cri = new Criteria();
+			list = service.selectReplyByBoardid(cri);
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PatchMapping(value = "/reply")
+	public ResponseEntity<List<Reply>> modifyReply(@RequestBody Reply reply) {
+		List<Reply> list = new ArrayList<Reply>();
+		try {
+			service.modifyReply(reply);
+			Criteria cri = new Criteria();
+			list = service.selectReplyByBoardid(cri);
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@DeleteMapping(value = "/reply/{replyid}")
+	public ResponseEntity<List<Reply>> deleteReply(@PathVariable("replyid") int replyid) {
+		List<Reply> list = new ArrayList<Reply>();
+		try {
+			service.deleteReply(replyid);
+			Criteria cri = new Criteria();
+			list = service.selectReplyByBoardid(cri);
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Reply>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}
 }
