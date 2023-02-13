@@ -12,7 +12,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-  <link rel="stylesheet" type="text/css" href="./css/style.css">
+<!--   <link rel="stylesheet" type="text/css" href="./css/style.css"> -->
 <!--     jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -49,7 +49,7 @@ aside{
 	vertical-align:top;
 }
 main{
-	width:78%;
+	width:70%;
 	height:800px;
 	display:inline-block;
 	font-size:15px;
@@ -265,7 +265,17 @@ main footer a{
 				$('#message').val('');
 			},
 			receiveMessage: function(str) {
-				$('.you').append('<div class="entete">'+'<h3>10:12AM, Today</h3>'+'<h2>Vincent</h2>'+ '<span class="status blue"></span>' +'<div class = "message">'+ str + '</div>' + '</div>');	
+				$('#chat').append(
+						'<li class="me">'
+						+'<div class="entete">'
+						+'<h3>10:12AM, Today</h3>'
+						+'&nbsp;'
+						+'<h2> Vincent</h2>'
+						+'<span class="status blue"></span>'
+						+'</div>'
+						+'<div class = "message">'+ str + '</div>' 
+						+ '</li>'
+						);
 			},
 			closeMessage: function(str) {
 				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
@@ -301,167 +311,14 @@ main footer a{
             <header>
                 <input type="text" placeholder="search">
             </header>
-            <!-- <ul>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status orange"></span>
-                            offline
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_02.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status green"></span>
-                            online
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_03.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status orange"></span>
-                            offline
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_04.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status green"></span>
-                            online
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_05.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status orange"></span>
-                            offline
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_06.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status green"></span>
-                            online
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_07.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status green"></span>
-                            online
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_08.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status green"></span>
-                            online
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_09.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status green"></span>
-                            online
-                        </h3>
-                    </div>
-                </li>
-                <li>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_10.jpg" alt="">
-                    <div>
-                        <h2>Prénom Nom</h2>
-                        <h3>
-                            <span class="status orange"></span>
-                            offline
-                        </h3>
-                    </div>
-                </li>
-            </ul> -->
         </aside>
         <main>
-            <!-- <header>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_01.jpg" alt="">
-                <div>
-                    <h2>Chat with Vincent Porter</h2>
-                    <h3>already 1902 messages</h3>
-                </div>
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_star.png" alt="">
-            </header> -->
             <ul id="chat">
                 <li class="you">
-                   <!--  <div class="entete">
+                   <div class="entete">
                         <span class="status green"></span>
                         <h2>Vincent</h2>
                         <h3>10:12AM, Today</h3>
-                    </div>
-                    <div class="triangle"></div>
-                    <div class="message">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                    </div> -->
-                </li>
-                <li class="me">
-                    <div class="entete">
-                        <h3>10:12AM, Today</h3>
-                        <h2>Vincent</h2>
-                        <span class="status blue"></span>
-                    </div>
-                    <div class="message">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                    </div>
-                </li>
-                <!-- <li class="me">
-                    <div class="entete">
-                        <h3>10:12AM, Today</h3>
-                        <h2>Vincent</h2>
-                        <span class="status blue"></span>
-                    </div>
-                    <div class="triangle"></div>
-                    <div class="message">
-                        OK
-                    </div>
-                </li>
-                <li class="you">
-                    <div class="entete">
-                        <span class="status green"></span>
-                        <h2>Vincent</h2>
-                        <h3>10:12AM, Today</h3>
-                    </div>
-                    <div class="triangle"></div>
-                    <div class="message">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                    </div>
-                </li>  -->
-       <!--          <li class="me">
-                    <div class="entete">
-                        <h3>10:12AM, Today</h3>
-                        <h2>Vincent</h2>
-                        <span class="status blue"></span>
                     </div>
                     <div class="triangle"></div>
                     <div class="message">
@@ -474,11 +331,10 @@ main footer a{
                         <h2>Vincent</h2>
                         <span class="status blue"></span>
                     </div>
-                    <div class="triangle"></div>
                     <div class="message">
-                        OK
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
                     </div>
-                </li> -->
+                </li>
             </ul>
             <footer>
                 <textarea id="message" placeholder="Type your message" onkeypress="if(event.keyCode==13){webSocket.sendChat();}"></textarea>
