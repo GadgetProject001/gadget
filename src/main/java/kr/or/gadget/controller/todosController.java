@@ -6,5 +6,76 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/todos")
 public class TodosController {
+	
+	private TodoService todoService;
+	
+	@Autowired
+	public void setTodoService(TodoService todoService) {
+		this.todoService = todoService;
+	}
+	
+	
+	/* 	public List<TodoContent> selectTodoList (int spaceid) {
+		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+	    return todoDao.selectTodoList(spaceid);
+	}; */
+	
+	/* TodoList 불러오기 
+	 * http://localhost:8080/gadget/todos/1*/
+	@RequestMapping(value="{spaceid}", method=RequestMethod.GET)
+	public List<TodoContent> selectTodoList(@PathVariable int spaceid) {
+		return todoService.selectTodoList(spaceid);
+	}
+	
+	/* 	public int updateTodoState (TodoContent todoContent){
+		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+		return todoDao.updateTodoState(todoContent);
+	}; */
+	
+	/* Todo State 변경하기 
+	 * http://localhost:8080/gadget/todos/move */
+	@RequestMapping(value="/move", method=RequestMethod.PATCH)
+	public int updateTodoState(@RequestBody TodoContentJoinState todoContentJoinState) {
+		return todoService.updateTodoState(todoContentJoinState);
+	}
+	
+	
+	/* 	 public int updateStateIndex(State state){
+	   TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+	   return todoDao.updateStateIndex(state);
+	 }; */
+	/* State index 변경하기
+	 * http://localhost:8080/gadget/todos/order */
+	@RequestMapping(value="/order", method=RequestMethod.PATCH)
+	public int updateStateIndex(@RequestBody State state) {
+		return todoService.updateStateIndex(state);
+	}
+	
+	/* 	 public TodoContentJoinState selectTodoContent(TodoContentJoinState todoContentJoinState){
+	   TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+	   return todoDao.selectTodoContent(todoContentJoinState);
+	 }; */
+	
+	@RequestMapping(value="/todoContent/{contentid}", method=RequestMethod.GET)
+	public TodoContentJoinState selectTodoContent(@PathVariable int contentid) {
+		return todoService.selectTodoContent(contentid);
+	}
+	
+	@RequestMapping(value="/todoContent", method=RequestMethod.POST)
+	public int insertTodoContent(@RequestBody TodoContentJoinState todoContentJoinState) {
+		System.out.println(todoContentJoinState);
+		return todoService.insertTodoContent(todoContentJoinState);
+	}
+	
+	/* 	 public int updateTodoContent(TodoContentJoinState todoContentJoinState){
+		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+		return todoDao.updateTodoContent(todoContentJoinState);
+	 }; */
+	
+	@RequestMapping(value="/todoContent", method=RequestMethod.PATCH)
+	public int updateTodoContent(@RequestBody TodoContentJoinState todoContentJoinState) {
+		return todoService.updateTodoContent(todoContentJoinState);
+	}
+}
 
 }

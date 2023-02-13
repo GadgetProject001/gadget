@@ -49,5 +49,15 @@ public class TodoService {
 	   TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
 	   return todoDao.selectTodoContent(contentid);
 	 };
+	   
+	 public int insertTodoContent(TodoContentJoinState todoContentJoinState){
+	    TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+	    return todoDao.insertTodoContent(todoContentJoinState);
+	 };
+	 
+	 public int updateTodoContent(TodoContentJoinState todoContentJoinState){
+		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+		return todoDao.updateTodoContent(todoContentJoinState);
+	 };
 
 }

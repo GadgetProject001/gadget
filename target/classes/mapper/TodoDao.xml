@@ -51,4 +51,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where td.stateid = st.stateid and td.contentid = #{td.contentid};
 	</select>
 	
+	<insert id="insertTodoContent" parameterType="kr.or.gadget.dto.TodoContentJoinState">
+	 	insert into todocontent (title, content, wdate, startdate, enddate, stateid)
+		values (#{title}, #{content}, current_timestamp(),#{startdate}, #{enddate}, (
+				select stateid
+				from state
+				where spaceid = #{spaceid} and statename=#{statename}
+		));
+	</insert>
+	<update id="updateTodoContent" parameterType="kr.or.gadget.dto.TodoContentJoinState">
+	    update todocontent
+		set title=#{title}, content=#{content}, startdate=#{startdate}, enddate=#{enddate}, stateid=(select stateid
+																									from state
+																									where spaceid = #{spaceid} and statename = #{statename})
+		where contentid=#{contentid};
+	</update>
+	
 </mapper>

@@ -11,4 +11,6 @@ public interface TodoDao {
   public int updateTodoState (TodoContentJoinState todoContentJoinState);
   public int updateStateIndex(State state);
   public TodoContentJoinState selectTodoContent(int contentid);
+  public int insertTodoContent(TodoContentJoinState todoContentJoinState);
+  public int updateTodoContent(TodoContentJoinState todoContentJoinState);
 }
