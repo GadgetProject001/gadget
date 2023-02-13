@@ -46,4 +46,19 @@ public class UserService {
 		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
 		return userdao.deleteUser(userid);
 	};
+	
+	public Users selectUser(String userid) {
+		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
+		return userdao.selectUser(userid);
+	};
+	
+	public int insertUser(Users users) {
+		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
+		return userdao.insertUser(users);
+	}
+	
+	public int updateUserLastDate(String userid) {
+		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
+		return userdao.updateUserLastDate(userid);
+	};
 }

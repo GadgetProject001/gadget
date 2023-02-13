@@ -28,4 +28,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteUser">
 		delete from users where userid= #{userid}
 	</delete>
+	
+	<select id="selectUser" resultType="kr.or.gadget.dto.Users">
+	  select userid, pwd, imgurl, username, regdate, lastdate, logintype, callnum, email, enabled
+	  from users
+	  where userid = #{userid}
+	</select>
+	
+	<insert id="insertUser" parameterType="kr.or.gadget.dto.Users">
+	 insert into users(userid, imgurl, username, regdate, lastdate, logintype, email)
+     value (#{userid}, #{imgurl}, #{username}, now(), now(), #{logintype}, #{email});
+	</insert>
+	
+	<update id="updateUserLastDate">
+	 update users
+	 set lastdate = now()
+	 where userid = #{userid};
+	</update>
 </mapper>
