@@ -73,6 +73,21 @@ public class TodosController {
 		return todoService.selectTodoContent(contentid);
 	}
 	
+	@RequestMapping(value="/todoContent", method=RequestMethod.POST)
+	public int insertTodoContent(@RequestBody TodoContentJoinState todoContentJoinState) {
+		System.out.println(todoContentJoinState);
+		return todoService.insertTodoContent(todoContentJoinState);
+	}
+	
+	/* 	 public int updateTodoContent(TodoContentJoinState todoContentJoinState){
+		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+		return todoDao.updateTodoContent(todoContentJoinState);
+	 }; */
+	
+	@RequestMapping(value="/todoContent", method=RequestMethod.PATCH)
+	public int updateTodoContent(@RequestBody TodoContentJoinState todoContentJoinState) {
+		return todoService.updateTodoContent(todoContentJoinState);
+	}
 }
 
 

@@ -27,7 +27,8 @@ public class UserService {
 	//특정 워크스페이스에 포함된 사용자 검색
 	public List<Users> selectUserByWspace(int spaceid) {
 		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
-		List<Users> list = userdao.selectUserByWspace(spaceid);
+		//List<Users> list = userdao.selectUserByWspace(spaceid);
+		List<Users> list = userdao.selectUserByWspace(1);
 		return list;
 	};
 	//사용자 검색
@@ -38,10 +39,7 @@ public class UserService {
 	//사용자 정보 수정
 	public int updateUser(Users users) {
 		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
-		if(userdao.selectPwUser(users)==1) {
-			return userdao.updateUser(users);
-		}
-		return 0;
+		return userdao.updateUser(users);
 	};
 	//사용자 삭제
 	public int deleteUser(String userid) {
