@@ -42,7 +42,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<delete id="deleteAttach">
-		delete from attach where boardid= #{boardid}
+		{
+			call del_board_procedure(#{boardid})
+		}
 	</delete>
 	
 	<delete id="deleteBoard">
@@ -80,4 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteReply">
 		delete from reply where replyid = #{replyid}
 	</delete>
+	
+	<select id="getTotCountReply" resultType="int">
+		SELECT COUNT(replyid) FROM reply WHERE boardid = #{boardid};
+	</select>
 </mapper>

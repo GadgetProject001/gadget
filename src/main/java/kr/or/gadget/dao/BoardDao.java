@@ -35,7 +35,9 @@ public interface BoardDao {
 	//댓글 삭제하기
 	int deleteReply(int replyid);
 	//댓글 수 갱신
-	void updateReplyCnt(@Param("boardid") int boardid, @Param("amount") int amount);
+	void updateReplyCnt(@Param("boardid") int boardid);
 	//댓글 가져오기
 	List<Reply> selectReplyByBoardid(Criteria cri);
+	//댓글 총 갯수 가져오기
+	int getTotCountReply(Criteria cri);
 }
