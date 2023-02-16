@@ -51,7 +51,12 @@ public class BoardService {
 	
 	public boolean modifyBoard(Board board) {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
-		boolean modifyResult = boarddao.modifyBoard(board);
+		boolean modifyResult = false;
+		try {
+			modifyResult = (boarddao.modifyBoard(board)==1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 //		boarddao.deleteAll(board.getBno());
 //		if (modifyResult && board.getAttachList() != null) {

@@ -21,7 +21,7 @@ public interface BoardDao {
 	//첨부파일 삽입하기
 	void insertAttach(Attach attach);
 	//글 갱신하기
-	boolean modifyBoard(Board board);
+	int modifyBoard(Board board);
 	//첨부파일 전부 삭제하기
 	void deleteAttach(int boardid);
 	//글 삭제하기

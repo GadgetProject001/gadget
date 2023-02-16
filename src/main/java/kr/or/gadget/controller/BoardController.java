@@ -81,9 +81,12 @@ public class BoardController {
 	public ResponseEntity<Board> modifyBoard(@RequestBody Board board) {
 		Board board2 = new Board();
 		try {
+			System.out.println(board);
 			service.modifyBoard(board);
 			Criteria cri = new Criteria();
+			System.out.println(cri);
 			board2 = service.selectBoardByid(board.getBoardid());
+			System.out.println(board2);
 			return new ResponseEntity<Board>(board2,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Board>(board2,HttpStatus.BAD_REQUEST);
