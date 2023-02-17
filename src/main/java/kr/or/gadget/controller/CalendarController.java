@@ -92,7 +92,7 @@ public class CalendarController {
 			return new ResponseEntity<List<Calendar>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}
-	//특정 워크스페이스의 캘린더정보 전부 가져오기
+	//사용 안함(id값 가져오기였음)
 	@GetMapping(value = "/id")
 	public ResponseEntity<Integer> selectId() {
 		int id = 0;
