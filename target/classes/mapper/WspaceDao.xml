@@ -30,6 +30,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set spacename=#{spacename}
 		where spaceid = #{spaceid}
 	</update>
+	
+	<insert id="createWorkSpace" parameterType="kr.or.gadget.dto.WorkSpace">
+	   {
+	     CALL create_space_procedure(#{spacename}, #{userid}, @resut, @error_message)
+	   }
+	</insert>
+	<select id="selectWorkSpaceByUserId" resultType="kr.or.gadget.dto.WorkSpaceJoinTeam">
+	    select sp.spaceid, sp.spacename, tm.teamid, tm.userid, (select count(*)
+														from wspace as wsp, team as tem
+														where wsp.spaceid = tem.spaceid and wsp.spacename = sp.spacename) as count
+		from wspace as sp, team as tm
+		where sp.spaceid = tm.spaceid and userid = #{userid};
+	</select>
 	<!--
 	<delete id="deleteSpace">프로시져 사용해야 할 수 있음
 		delete from wspace where spaceid= #{spaceid}

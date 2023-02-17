@@ -21,4 +21,6 @@ public interface UsersDao {
 	int insertUser(Users users);
 	
 	int updateUserLastDate(String userid);
+	
+	List<Users> selectUsers();
 }

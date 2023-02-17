@@ -1,20 +1,22 @@
 package kr.or.gadget.dto;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+//@Getter
+//@Setter
+//@ToString
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class Users {
-	
-	public Users() {}
-
-	public Users(String userid, String imageUrl, String username, String logintype, String email) {
-		this.userid = userid;
-		this.imgurl = imageUrl;
-		this.username = username;
-		this.logintype = logintype;
-		this.email = email;
-	}
-	
 	private String userid;
     private String pwd;
 	private String imgurl;
