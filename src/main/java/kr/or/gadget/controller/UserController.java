@@ -108,8 +108,8 @@ public class UserController {
 		}
 	};
 	
-	@PostMapping(value="/googleLogin", produces="application/x-www-form-urlencoded")
-	public ResponseEntity<Users> googleLogin(@RequestBody Users users) {
+	@PostMapping(value="/googleLogin")
+	public Users googleLogin(@RequestBody Users users) {
 		
 //		System.out.println(param);
 		
@@ -153,18 +153,37 @@ public class UserController {
 			user = userservice.selectUser(userid);
 			System.out.println(user);
 			
+			
 			if(user == null) {
-				user = new Users(userid, imgurl, username, logintype, email);
+//				user = new Users();
+				user.setUserid(userid);
+				user.setImgurl(imgurl);
+				user.setUsername(username);
+				user.setLogintype(logintype);
+				user.setEmail(email);
+				
 				System.out.println(user);
 			    userservice.insertUser(user);	
-			    return new ResponseEntity<Users>(user, HttpStatus.OK);
+			    return user;
 			} else {
 				userservice.updateUserLastDate(userid);
-				return new ResponseEntity<Users>(user, HttpStatus.OK);
+				return user;
 			}
 		}catch(Exception e) {
 			System.out.println(e);
-			return new ResponseEntity<Users>(user, HttpStatus.BAD_REQUEST);
+			return user;
+		}
+	}
+	
+	@GetMapping(value = "/search")
+	public ResponseEntity<List<Users>> selectUsers(){
+		List<Users> users = new ArrayList<Users>();
+		try {
+			System.out.println("정상실행");
+			users = userservice.selectUsers();
+			return new ResponseEntity<List<Users>>(users,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Users>>(users,HttpStatus.BAD_REQUEST);
 		}
 	}
 }

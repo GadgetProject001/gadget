@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.or.gadget.dto.Side;
 import kr.or.gadget.dto.Space;
+import kr.or.gadget.dto.WorkSpace;
 import kr.or.gadget.dto.Wspace;
 
 public interface WspaceDao {
@@ -17,4 +18,6 @@ public interface WspaceDao {
 	int updateSpaceName(Wspace wspace);
 	//워크스페이스 삭제
 //	int deleteSpace(int spaceid);
+	int createWorkSpace(WorkSpace workSpace);
+	List<WorkSpace> selectWorkSpaceByUserId(String userid);
 }

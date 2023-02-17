@@ -61,4 +61,9 @@ public class UserService {
 		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
 		return userdao.updateUserLastDate(userid);
 	};
+	
+	public List<Users> selectUsers() {
+		UsersDao userdao = sqlsession.getMapper(UsersDao.class);
+		return userdao.selectUsers();
+	};
 }

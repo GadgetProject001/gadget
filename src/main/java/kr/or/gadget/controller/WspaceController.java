@@ -8,12 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.or.gadget.dao.WspaceDao;
 import kr.or.gadget.dto.Side;
+import kr.or.gadget.dto.WorkSpace;
 import kr.or.gadget.dto.Wspace;
 import kr.or.gadget.service.WspaceService;
 
@@ -72,6 +75,24 @@ public class WspaceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<Wspace>>(list,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/group")
+	public int createWorkSpace(@RequestBody WorkSpace workSpace) {
+		return service.createWorkSpace(workSpace);
+	}
+	
+	@GetMapping(value = "/groupList/{userid}")
+	public ResponseEntity<List<WorkSpace>> selectWorkSpaceByUserId(@PathVariable("userid") String userid){
+		List<WorkSpace> list = new ArrayList<WorkSpace>();
+		try {
+			System.out.println("Wspace 리스트 출력");
+			list = service.selectWorkSpaceByUserId(userid);
+			return new ResponseEntity<List<WorkSpace>>(list,HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<WorkSpace>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}
 }
