@@ -39,9 +39,9 @@
     
     <websocket:handlers allowed-origins="/*" >
         <websocket:mapping handler="handlerChat" path="/chat" />
-        <websocket:handshake-interceptors>
+       <!--  <websocket:handshake-interceptors>
         <bean class="kr.or.handler.HandShakeInterceptor"></bean>
-        </websocket:handshake-interceptors>
+        </websocket:handshake-interceptors> -->
         <websocket:sockjs websocket-enabled="true" />
     </websocket:handlers>
     	<bean id="handlerChat" class="kr.or.handler.HandlerChat" />
