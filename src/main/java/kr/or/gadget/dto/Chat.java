@@ -9,5 +9,6 @@ public class Chat {
 	private String content;
 	private int chatidx;
 	private String userid;
+	private String username;
 	private String spaceid;
 }
