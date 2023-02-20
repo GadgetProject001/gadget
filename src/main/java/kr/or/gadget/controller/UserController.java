@@ -113,6 +113,8 @@ public class UserController {
 		
 //		System.out.println(param);
 		
+		System.out.println("users : " + users);
+		
 		BufferedReader in  = null;
 		InputStream is = null;
 		InputStreamReader isr = null;
