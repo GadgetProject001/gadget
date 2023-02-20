@@ -253,109 +253,7 @@ main footer a{
 }
     </style>
    <!--  <link rel="stylesheet" type="text/css"href="/css/view_chat.css"> -->
-	<script type="text/javascript">
-		var webSocket = {
-			init: function(param) {
-				const spaceid = '${spaceid}';
-				this._url = param.url;
-				this._initSocket();
-				//this._sendMessage($('#name').val()+'님이 접속하셨습니다.');
-				this._sendMessage('입장/${userid}/' + spaceid +'님이 접속하셨습니다.');
-			},
-			sendChat: function() {//메세지 보내기 
-				const username = '${username}';
-				this._sendMessage(username +$('#message').val());
-				$('#message').val('');
-			},
-			receiveMessage: function(str) {//메세지 받기
-
-				
-				
-				$('#chat').append(
-						'<li class="me">'
-						+'<div class="entete">'
-						+'<h3>10:12AM, Today</h3>'
-						+'&nbsp;'
-						+'<h2> Vincent</h2>'
-						+'<span class="status blue"></span>'
-						+'</div>'
-						+'<div class = "message">'+ str + '</div>' 
-						+ '</li>'
-						);
-
-			},
-			
-			/* load: function PreMessage(roomno){//불러오기?
-				let requestdata = {"roomno" : roomno};
-				let data = JSON.stringify(requestdata);
-				$.ajax({
-					type: "post",
-					url: "preRoom.htm",
-					data: data,
-					dataType: "text",
-					contentType: "application/json; charset=utf-8",
-					success: function(data1){
-						
-						let data =JSON.parse(data1);
-						
-						$.each(data, function(){
-							if(userid == username){
-								$('#chat').append(
-										'<li class="me">'
-										+'<div class="entete">'
-										+'<h3>10:12AM, Today</h3>'
-										+'&nbsp;'
-										+'<h2> Vincent</h2>'
-										+'<span class="status blue"></span>'
-										+'</div>'
-										+'<div class = "message">'+ str + '</div>' 
-										+ '</li>'
-										);	
-								} else{
-									$('#chat').append(
-											'<li class="you">'
-											+'<div class="entete">'
-											+'<h3>10:12AM, Today</h3>'
-											+'&nbsp;'
-											+'<h2> Vincent</h2>'
-											+'<span class="status blue"></span>'
-											+'</div>'
-											+'<div class = "message">'+ str + '</div>' 
-											+ '</li>'
-											);	
-									
-								}
-							
-						});
-					}
-					
-				});
-			}, */
-			closeMessage: function(str) {
-				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
-			},
-			disconnect: function() {
-				this._socket.close();
-			},
-			_initSocket: function() {
-				this._socket = new SockJS(this._url);
-				this._socket.onmessage = function(evt) {
-					webSocket.receiveMessage(evt.data);
-				};
-				this._socket.onclose = function(evt) {
-					webSocket.closeMessage(evt.data);
-				}
-			},
-			_sendMessage: function(str) {
-				this._socket.send(str);
-			}
-		};
-	</script>	
-	<script type="text/javascript">
-		$(document).ready(function() {
-			webSocket.init({ url: '<c:url value="/chat" />' });			
-		});
-	</script>
+	
 </head>
 <body>
 
@@ -367,8 +265,8 @@ main footer a{
             </header>
         </aside>
         <main>
-            <ul id="chat">
-                <li class="you">
+             <ul id="chat">
+         <!--        <li class="you">
                    <div class="entete">
                         <span class="status green"></span>
                         <h2>Vincent</h2>
@@ -388,8 +286,8 @@ main footer a{
                     <div class="message">
                         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
                     </div>
-                </li>
-            </ul>
+                </li> -->
+            </ul> 
             <footer>
                 <textarea id="message" placeholder="Type your message" onkeypress="if(event.keyCode==13){webSocket.sendChat();}"></textarea>
                 <!-- <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png" alt="">
@@ -416,4 +314,97 @@ main footer a{
         
 	
 </body>
+<script type="text/javascript">
+		var webSocket = {
+			init: function(param) {
+				const spaceid = '${spaceid}';
+				this._url = param.url;
+				this._initSocket();
+			},
+			sendChat: function() {//메세지 보내기 
+				//&#47;
+				
+				this._sendMessage("메세지/"+$('#message').val());
+				$('#message').val('');
+			},
+			receiveMessage: function(str) {//메세지 받기
+				$('#chat').append(str);
+			},
+			closeMessage: function(str) {
+				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
+			},
+			disconnect: function() {
+				this._socket.close();
+			},
+			_initSocket: function() {
+				this._socket = new SockJS(this._url);
+				this._socket.onmessage = function(evt) {
+					webSocket.receiveMessage(evt.data);
+				};
+				this._socket.onclose = function(evt) {
+					webSocket.closeMessage(evt.data);
+				}
+				this._socket.onopen = function(evt){
+					let str = "입장/" + "1" + "/" + "아이디"; 
+					webSocket._sendMessage(str);
+				}
+			},
+			_sendMessage: function(str) {
+				this._socket.send(str);
+			}
+		};
+	</script>	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			webSocket.init({ url: '<c:url value="/chat" />' });			
+		});
+
+		
+		/* load: function PreMessage(roomno){//불러오기?
+			let requestdata = {"roomno" : roomno};
+			let data = JSON.stringify(requestdata);
+			$.ajax({
+				type: "post",
+				url: "preRoom.htm",
+				data: data,
+				dataType: "text",
+				contentType: "application/json; charset=utf-8",
+				success: function(data1){
+					
+					let data =JSON.parse(data1);
+					
+					$.each(data, function(){
+						if(userid == username){
+							$('#chat').append(
+									'<li class="me">'
+									+'<div class="entete">'
+									+'<h3>10:12AM, Today</h3>'
+									+'&nbsp;'
+									+'<h2> Vincent</h2>'
+									+'<span class="status blue"></span>'
+									+'</div>'
+									+'<div class = "message">'+ str + '</div>' 
+									+ '</li>'
+									);	
+							} else{
+								$('#chat').append(
+										'<li class="you">'
+										+'<div class="entete">'
+										+'<h3>10:12AM, Today</h3>'
+										+'&nbsp;'
+										+'<h2> Vincent</h2>'
+										+'<span class="status blue"></span>'
+										+'</div>'
+										+'<div class = "message">'+ str + '</div>' 
+										+ '</li>'
+										);	
+								
+							}
+						
+					});
+				}
+				
+			});
+		}, */
+	</script>
 </html>
