@@ -13,4 +13,6 @@ public interface TodoDao {
   public TodoContentJoinState selectTodoContent(int contentid);
   public int insertTodoContent(TodoContentJoinState todoContentJoinState);
   public int updateTodoContent(TodoContentJoinState todoContentJoinState);
+//  public State selectTodoOrder(int spaceid);
+  public String selectTodoOrder(int spaceid);
 }

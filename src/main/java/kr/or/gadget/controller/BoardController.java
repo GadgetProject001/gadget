@@ -81,9 +81,12 @@ public class BoardController {
 	public ResponseEntity<Board> modifyBoard(@RequestBody Board board) {
 		Board board2 = new Board();
 		try {
+			System.out.println(board);
 			service.modifyBoard(board);
 			Criteria cri = new Criteria();
+			System.out.println(cri);
 			board2 = service.selectBoardByid(board.getBoardid());
+			System.out.println(board2);
 			return new ResponseEntity<Board>(board2,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Board>(board2,HttpStatus.BAD_REQUEST);
@@ -91,7 +94,7 @@ public class BoardController {
 	}
 	
 	//글 삭제하기
-	@DeleteMapping(value = "/delete/{boardid}")
+	@DeleteMapping(value = "/{boardid}")
 	public ResponseEntity<List<Board>> deleteBoard(@PathVariable("boardid") int boardid) {
 		List<Board> list = new ArrayList<Board>();
 		try {
@@ -100,13 +103,20 @@ public class BoardController {
 			list = service.selectBoardList(cri);
 			return new ResponseEntity<List<Board>>(list,HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<List<Board>>(list,HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@GetMapping(value = "reply/count")
+	//글 수 총합
+	@GetMapping(value = "/count")
 	public int getTotalCount(Criteria cri) {
 		return service.getTotalCount(cri);
+	}
+	//댓글 수 총합
+	@GetMapping(value = "/reply/count")
+	public int getTotCountReply(Criteria cri) {
+		return service.getTotCountReply(cri);
 	}
 	
 	@GetMapping(value = "/reply/{boardid}")
@@ -114,6 +124,7 @@ public class BoardController {
 		List<Reply> list = new ArrayList<Reply>();
 		try {
 			Criteria cri = new Criteria();
+			cri.setBoardid(boardid);
 			list = service.selectReplyByBoardid(cri);
 			return new ResponseEntity<List<Reply>>(list,HttpStatus.OK);
 		} catch (Exception e) {

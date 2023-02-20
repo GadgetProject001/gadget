@@ -59,5 +59,11 @@ public class TodoService {
 		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
 		return todoDao.updateTodoContent(todoContentJoinState);
 	 };
+	 
+//	 public State selectTodoOrder(int spaceid) {
+	 public String selectTodoOrder(int spaceid) {
+		TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
+		return todoDao.selectTodoOrder(spaceid);
+	 }
 
 }

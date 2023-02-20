@@ -51,7 +51,12 @@ public class BoardService {
 	
 	public boolean modifyBoard(Board board) {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
-		boolean modifyResult = boarddao.modifyBoard(board);
+		boolean modifyResult = false;
+		try {
+			modifyResult = (boarddao.modifyBoard(board)==1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 //		boarddao.deleteAll(board.getBno());
 //		if (modifyResult && board.getAttachList() != null) {
@@ -76,9 +81,14 @@ public class BoardService {
 		return boarddao.getTotalCount(cri);
 	};
 	
-	public void updateReplyCnt(@Param("boardid") int boardid, @Param("amount") int amount) {
+	public int getTotCountReply(Criteria cri) {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
-		boarddao.updateReplyCnt(boardid, amount);
+		return boarddao.getTotCountReply(cri);
+	}
+	
+	public void updateReplyCnt(@Param("boardid") int boardid) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		boarddao.updateReplyCnt(boardid);
 	}
 	
 	public List<Reply> selectReplyByBoardid(Criteria cri) {
@@ -90,6 +100,7 @@ public class BoardService {
 	public void writeReply(Reply reply) {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
 		boarddao.writeReply(reply);
+		boarddao.updateReplyCnt(reply.getBoardid());
 	}
 	
 	public int modifyReply(Reply reply) {
@@ -99,6 +110,8 @@ public class BoardService {
 	
 	public int deleteReply(int replyid) {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
-		return boarddao.deleteReply(replyid);
+		int num = boarddao.deleteReply(replyid); 
+		boarddao.updateReplyCnt(replyid);
+		return num;
 	}
 }
