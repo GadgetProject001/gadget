@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.or.gadget.dao.TodoDao;
 import kr.or.gadget.dto.State;
 import kr.or.gadget.dto.TodoContent;
 import kr.or.gadget.dto.TodoContentJoinState;
@@ -60,6 +61,12 @@ public class todosController {
 	@RequestMapping(value="/order", method=RequestMethod.PATCH)
 	public int updateStateIndex(@RequestBody State state) {
 		return todoService.updateStateIndex(state);
+	}
+	
+	@RequestMapping(value="/order/{spaceid}", method=RequestMethod.GET)
+//	public State selectTodoOrder(@PathVariable int spaceid) {
+	public String selectTodoOrder(@PathVariable int spaceid) {
+		return todoService.selectTodoOrder(spaceid);
 	}
 	
 	/* 	 public TodoContentJoinState selectTodoContent(TodoContentJoinState todoContentJoinState){

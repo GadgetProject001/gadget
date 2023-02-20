@@ -66,5 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 																									where spaceid = #{spaceid} and statename = #{statename})
 		where contentid=#{contentid};
 	</update>
-	
+	<!-- <select id="selectTodoOrder" resultType="kr.or.gadget.dto.State"> -->
+	<select id="selectTodoOrder" resultType="string">
+	    select group_concat(stateindex) as stateindex
+		from state
+		group by spaceid
+		having spaceid = #{spaceid};
+	</select>
 </mapper>
