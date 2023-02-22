@@ -1,15 +1,18 @@
 package kr.or.gadget.controller;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -121,6 +124,11 @@ public class UserController {
 		JSONParser jsonParser = new JSONParser();
         
 		String userid = null;
+		String username = null;
+		String email = null;
+		String imgurl = null;
+		String logintype = null;
+		
 		Users user = new Users();
 		
 		try {
@@ -141,10 +149,10 @@ public class UserController {
 			JSONObject jsonObj = (JSONObject)jsonParser.parse(in);
 
 			userid = jsonObj.get("sub").toString();
-			String username = jsonObj.get("name").toString();
-			String email = jsonObj.get("email").toString();
-			String imgurl = jsonObj.get("picture").toString();
-			String logintype = jsonObj.get("iss").toString();
+			username = jsonObj.get("name").toString();
+			email = jsonObj.get("email").toString();
+			imgurl = jsonObj.get("picture").toString();
+			logintype = jsonObj.get("iss").toString();
 			
 			System.out.println(userid);
 			System.out.println(username);
@@ -152,26 +160,19 @@ public class UserController {
 			System.out.println(imgurl);
 			System.out.println(logintype);
 			
-			user = userservice.selectUser(userid);
+			user = new Users();
+			user.setUserid(userid);
+			user.setImgurl(imgurl);
+			user.setUsername(username);
+			user.setLogintype(logintype);
+			user.setEmail(email);
+			
 			System.out.println(user);
+		    userservice.insertUser(user);	
+			userservice.updateUserLastDate(userid);
 			
-			
-			if(user == null) {
-//				user = new Users();
-				user.setUserid(userid);
-				user.setImgurl(imgurl);
-				user.setUsername(username);
-				user.setLogintype(logintype);
-				user.setEmail(email);
-				
-				System.out.println(user);
-			    userservice.insertUser(user);	
-			    return user;
-			} else {
-				userservice.updateUserLastDate(userid);
-				return user;
-			}
-		}catch(Exception e) {
+			return user;
+		}catch( IOException | ParseException e) {
 			System.out.println(e);
 			return user;
 		}
