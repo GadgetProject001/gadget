@@ -8,12 +8,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import kr.or.gadget.dto.Chat;
+import kr.or.gadget.service.ChatService;
+
 public class HandlerChat extends TextWebSocketHandler {
+	
+	@Autowired
+	private ChatService service;
+	
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 
 	// 채팅방 , 채팅방에 참여중인 session List
@@ -24,6 +32,7 @@ public class HandlerChat extends TextWebSocketHandler {
 	
 	//어떤 세션이 어떤 아이디를 가지는지
 	private Map<WebSocketSession,String> id = new HashMap<WebSocketSession, String>();
+	private Map<WebSocketSession,String> nickname = new HashMap<WebSocketSession, String>();
 	
 	/*
 	 * private Map<String, HashMap<String, WebSocketSession>> usermap =
@@ -83,7 +92,9 @@ public class HandlerChat extends TextWebSocketHandler {
 	// 클라이언트가 서버로 메서지 전송 처리
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		
+		System.out.println("=================================================");
+		System.out.println(message.getPayload());
+		System.out.println("=================================================");
 		// 입장/id/spaceid
 		// 메세지/안녕하세요
 		String msg = message.getPayload(); //연결되어있는 모든 클라이언트들에게 메시지를 전송한다
@@ -93,48 +104,63 @@ public class HandlerChat extends TextWebSocketHandler {
 			//방이 없으면 만들고 접속시키기
 			if(map.get(msgs[1]) == null) {
 				System.out.println(msgs[1] +"번 방만들기");
-				List<WebSocketSession> li = new ArrayList<WebSocketSession>();
-				li.add(session);
-				map.put(msgs[1],li);
+				map.put(msgs[1],new ArrayList<WebSocketSession>());
 			}
-			else {
-				map.get(msgs[1]).add(session); //3번방에 세션추가
-			}
+			map.get(msgs[1]).add(session); //3번방에 세션추가
 			// 사용자(session) 정보(방번호/아이디) 기록
-			id.put(session,msgs[2]);		// 어떤 세션이 어떤 아이디를 가지고 있는지 기록
+			id.put(session,msgs[2]);		// 어떤 세션이 어떤 아이디를 가지고 있는지 기록 >> DB 작업할떄 쓰는거
+			// msgs[2] 가지고 DB에서 조회한 이름 
+			String namestr = service.getNameByUserId(msgs[2]);
+			nickname.put(session,"namestr");		// 어떤 세션이 어떤 이름을 가지고 있는지 기록 >> 메세지 보낼때
 			connect.put(session,msgs[1]);//세션이 몇번방에 있는지 기록
 		} else if(msgs[0].equals("메세지")) {
 			String roomid = connect.get(session);
-			System.out.println("메세지를 보낼 방 번호 : " + roomid);
 			String id_str = id.get(session); 
+			String chatmsg = msgs[1];
+			Chat chat = Chat.builder()
+					.spaceid(roomid)
+					.userid(id_str)
+					.content(chatmsg)
+					.build();
 			
-			// 현재 시간을 Calendar 객체로 가져오기
-	        Calendar now = Calendar.getInstance();
-	        
-	        // 날짜와 시간 포멧 지정하기
-	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-	        
-	        // 포멧에 따라 현재 시간을 문자열로 변환하기
-	        String formattedDate = dateFormat.format(now.getTime());
-	        
-			// id_str
-			// db에서 이것저것 가져온다음에
-			// 가져온 것들로 채팅 insert
-			// insert 결과가 성공 > service.insvertChat() > 결과가 true / 1
-			for(WebSocketSession s : map.get(roomid)) {
-				String str = "<li class='" + ((s == session) ? "me" : "you") +"'>"+
-					                "<di class='entete'>"+
-					                "<h3>" + formattedDate + "</h3>"+
-					                "<h2>" + id_str + "</h2>"+
-					                "<span class='status " + ((s == session) ? "blue" : "green") +"'></span>"+
-					            "</div>"+
-					            "<div class='message'> "+
-					                msgs[1] +
-					            "</div>"+
-					        "</li>";
-				s.sendMessage(new TextMessage(str));
+			boolean dbResult = service.insertChat(chat);
+			
+			if(dbResult) {
+				// 현재 시간을 Calendar 객체로 가져오기
+		        Calendar now = Calendar.getInstance();
+		        
+		        // 날짜와 시간 포멧 지정하기
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+		        
+		        // 포멧에 따라 현재 시간을 문자열로 변환하기
+		        String formattedDate = dateFormat.format(now.getTime());
+		        
+				// id_str
+				// db에서 이것저것 가져온다음에
+				// 가져온 것들로 채팅 insert
+				// insert 결과가 성공 > service.insvertChat() > 결과가 true / 1
+		        int i = 0;
+				for(WebSocketSession s : map.get(roomid)) {
+					String str = "<li class='" + ((s == session) ? "me" : "you") +"'>"+
+						                "<di class='entete'>"+
+						                "<h3>" + formattedDate + "</h3>"+
+						                "<h2>" + id_str + "</h2>"+
+						                "<span class='status " + ((s == session) ? "blue" : "green") +"'></span>"+
+						            "</div>"+
+						            "<div class='message'> "+
+						                chatmsg +
+						            "</div>"+
+						        "</li>";
+					try {
+						s.sendMessage(new TextMessage(str));
+					} catch (Exception e) {
+					}
+				}
+			} else {
+				// 결과가 실패면
+				String str = "<li class=\"me warning\"><di class=\"entete\"><div class=\"message\">전송에 실패했습니다</div></di></li>";
+				session.sendMessage(new TextMessage(str));
 			}
-			// 결과가 실패면
 			
 			
 			// session.sendMessage(실패했다고 알려주기)
@@ -164,18 +190,13 @@ public class HandlerChat extends TextWebSocketHandler {
 		 * sess.sendMessage(message); }
 		 */
 
-		
-		  //모든 세션에 채팅 전달 
-		  for (int i = 0; i < sessionList.size(); i++) {
-		  WebSocketSession s = sessionList.get(i); s.sendMessage(new
-		  TextMessage(session.getId() + " : " + message.getPayload())); }
-		 
 	}
 
 	// 클라이언트가 연결을 끊음 처리
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 
+		session.close();
 		// 입장한 채팅방 이름 꺼내와 변수 저장
 		/*
 		 * String chatname = getCurrentChatRoom(session); String userid =
@@ -183,7 +204,7 @@ public class HandlerChat extends TextWebSocketHandler {
 		 * TextMessage msg = new TextMessage(inform);
 		 */
 		  // 채팅방에서 퇴장한 사용자 세션을 리스트에서 제거
-			sessionList.remove(session);
+		//	sessionList.remove(session);
 		 
 		/*
 		 * usermap.get(chatname).remove(session.getId()); // 채팅방에서 클라이언트라 접속을 끊으면, 참여중인
@@ -192,9 +213,9 @@ public class HandlerChat extends TextWebSocketHandler {
 		 */
 		
 		  // 모든 세션에 채팅 전달 
-		 for (int i = 0; i < sessionList.size(); i++) {
-		  WebSocketSession s = sessionList.get(i); s.sendMessage(new
-		  TextMessage(session.getId() + "님이 퇴장 했습니다.")); }
+//		 for (int i = 0; i < sessionList.size(); i++) {
+//		  WebSocketSession s = sessionList.get(i); s.sendMessage(new
+//		  TextMessage(session.getId() + "님이 퇴장 했습니다.")); }
 		 
 		/*
 		 * for (Map.Entry m : usermap.get(chatname).entrySet()) { // 메시지가 입력된 채팅방에 있는
@@ -202,17 +223,17 @@ public class HandlerChat extends TextWebSocketHandler {
 		 * sess.sendMessage(msg); }
 		 */
 
+		/*
+		 * // 채팅방의 정보를 받아오는 함수 public String getCurrentChatRoom(WebSocketSession
+		 * session) { Map<String, Object> map = session.getAttributes();
+		 * 
+		 * return (String) map.get(""); }
+		 * 
+		 * // 채팅방의 정보를 받아오는 함수 public String getNickName(WebSocketSession session) {
+		 * Map<String, Object> map = session.getAttributes();
+		 * 
+		 * return (String) map.get("nickname"); }
+		 */
 	}
 
-	/*
-	 * // 채팅방의 정보를 받아오는 함수 public String getCurrentChatRoom(WebSocketSession
-	 * session) { Map<String, Object> map = session.getAttributes();
-	 * 
-	 * return (String) map.get(""); }
-	 * 
-	 * // 채팅방의 정보를 받아오는 함수 public String getNickName(WebSocketSession session) {
-	 * Map<String, Object> map = session.getAttributes();
-	 * 
-	 * return (String) map.get("nickname"); }
-	 */
 }
