@@ -4,4 +4,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.gadget.dao.ChatDao">
 	
+	
+	<!-- 해당 방의 기존 메시지 읽어오기 List<Chat> chatList(int spaceid); -->
+	<select id="chatList" resultType="kr.or.gadget.dto.Chat">
+		select * from message where spaceid = #{spaceid} order by chatid
+	</select>
+	
+	
+	<!-- 채팅 insert -->
+	<insert id="insertchat" parameterType="kr.or.gadget.dto.Chat">
+		insert into chat(wdate, content, userid, spaceid)
+			values(now(), #{content}, #{userid}, #{spaceid})
+	</insert>
+	
+	
+	<!-- userid 비교해서 username 가져오기 -->
+	<select id="getNameByUserId" resultType="kr.or.gadget.dto.Users">
+		select * from gadget.users where userid = #{param1}
+	</select>
+	
+	
 </mapper>

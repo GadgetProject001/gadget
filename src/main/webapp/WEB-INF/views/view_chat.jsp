@@ -204,6 +204,9 @@ main header h3{
 #chat .me .message{
 	background-color:#6fbced;
 }
+#chat .me.warning .message{
+	background-color:#ff725d;
+}
 #chat .triangle{
 	width: 0;
 	height: 0;
@@ -257,36 +260,16 @@ main footer a{
 </head>
 <body>
 
-
     <div id="container" width="100%" height="100%">
         <aside>
             <header>
                 <input type="text" placeholder="search">
+                <button type="button" class="btn btn-primary">내용 불러오기</button>
             </header>
         </aside>
         <main>
              <ul id="chat">
-         <!--        <li class="you">
-                   <div class="entete">
-                        <span class="status green"></span>
-                        <h2>Vincent</h2>
-                        <h3>10:12AM, Today</h3>
-                    </div>
-                    <div class="triangle"></div>
-                    <div class="message">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                    </div>
-                </li>
-                <li class="me">
-                    <div class="entete">
-                        <h3>10:12AM, Today</h3>
-                        <h2>Vincent</h2>
-                        <span class="status blue"></span>
-                    </div>
-                    <div class="message">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                    </div>
-                </li> -->
+
             </ul> 
             <footer>
                 <textarea id="message" placeholder="Type your message" onkeypress="if(event.keyCode==13){webSocket.sendChat();}"></textarea>
@@ -311,21 +294,33 @@ main footer a{
                   aria-hidden="true"></i></button>
             </div>
           </div> -->
-        
-	
 </body>
 <script type="text/javascript">
+		const userid = '${param.userid}';
+		const workspace ='${param.spaceid}';
+		
+/* 		$.ajax({
+			type: "post",
+			url: "receiveuserid.do",
+			data: {
+				userid : 'userid'
+			},
+			success: function(data1){
+				
+			}
+		}); */
+		
+		
 		var webSocket = {
 			init: function(param) {
-				const spaceid = '${spaceid}';
 				this._url = param.url;
 				this._initSocket();
 			},
 			sendChat: function() {//메세지 보내기 
 				//&#47;
-				
 				this._sendMessage("메세지/"+$('#message').val());
 				$('#message').val('');
+								
 			},
 			receiveMessage: function(str) {//메세지 받기
 				$('#chat').append(str);
@@ -345,7 +340,7 @@ main footer a{
 					webSocket.closeMessage(evt.data);
 				}
 				this._socket.onopen = function(evt){
-					let str = "입장/" + "1" + "/" + "아이디"; 
+					let str = "입장/" + workspace + "/" + userid; 
 					webSocket._sendMessage(str);
 				}
 			},
@@ -359,7 +354,6 @@ main footer a{
 			webSocket.init({ url: '<c:url value="/chat" />' });			
 		});
 
-		
 		/* load: function PreMessage(roomno){//불러오기?
 			let requestdata = {"roomno" : roomno};
 			let data = JSON.stringify(requestdata);
