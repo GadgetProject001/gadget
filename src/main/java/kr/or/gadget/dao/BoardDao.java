@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import kr.or.gadget.dto.Attach;
+import kr.or.gadget.dto.Bcode;
 import kr.or.gadget.dto.Board;
 import kr.or.gadget.dto.Criteria;
 import kr.or.gadget.dto.Reply;
@@ -40,4 +41,6 @@ public interface BoardDao {
 	List<Reply> selectReplyByBoardid(Criteria cri);
 	//댓글 총 갯수 가져오기
 	int getTotCountReply(Criteria cri);
+	//카테고리 증가
+	int insertBcode(Bcode bcode);
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.gadget.dao.BoardDao;
 import kr.or.gadget.dto.Attach;
+import kr.or.gadget.dto.Bcode;
 import kr.or.gadget.dto.Board;
 import kr.or.gadget.dto.Criteria;
 import kr.or.gadget.dto.Reply;
@@ -112,6 +113,18 @@ public class BoardService {
 		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
 		int num = boarddao.deleteReply(replyid); 
 		boarddao.updateReplyCnt(replyid);
+		return num;
+	}
+	
+	public int insertBcode(Bcode bcode) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		int num = 0;
+		try {
+			num = boarddao.insertBcode(bcode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("프로시져 호출완료");
 		return num;
 	}
 }

@@ -17,7 +17,7 @@ import kr.or.gadget.service.TodoService;
 
 @RestController
 @RequestMapping("/todos")
-public class todosController {
+public class TodosController {
 	
 	private TodoService todoService;
 	

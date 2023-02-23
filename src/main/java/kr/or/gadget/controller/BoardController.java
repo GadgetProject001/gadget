@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.or.gadget.dto.Bcode;
 import kr.or.gadget.dto.Board;
 import kr.or.gadget.dto.Criteria;
 import kr.or.gadget.dto.Reply;
@@ -168,6 +169,18 @@ public class BoardController {
 			return new ResponseEntity<List<Reply>>(list,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<Reply>>(list,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping(value = "/{spaceid}/bcode")
+	public ResponseEntity<String> insertBcode(@RequestBody Bcode bcode){
+		try {
+			System.out.println("카테고리 추가");
+			System.out.println(bcode.toString());
+			service.insertBcode(bcode);
+			return new ResponseEntity<String>("insert_success",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("insert_fail",HttpStatus.BAD_REQUEST);
 		}
 	}
 }

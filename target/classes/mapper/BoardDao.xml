@@ -86,4 +86,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTotCountReply" resultType="int">
 		SELECT COUNT(replyid) FROM reply WHERE boardid = #{boardid};
 	</select>
+	
+	<insert id="insertBcode" parameterType="kr.or.gadget.dto.Bcode">
+		{
+		call insert_side(#{bcodeid}, #{bcodename})
+		}
+	</insert>
 </mapper>
