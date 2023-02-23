@@ -43,4 +43,8 @@ public interface BoardDao {
 	int getTotCountReply(Criteria cri);
 	//카테고리 증가
 	int insertBcode(Bcode bcode);
+	//카테고리 삭제
+	int deleteBcode(int bcodeid);
+	//사이드에서 카테고리 삭제
+	int deleteBcodeFromSide(int bcodeid);
 }

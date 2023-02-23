@@ -175,12 +175,21 @@ public class BoardController {
 	@PostMapping(value = "/{spaceid}/bcode")
 	public ResponseEntity<String> insertBcode(@RequestBody Bcode bcode){
 		try {
-			System.out.println("카테고리 추가");
-			System.out.println(bcode.toString());
 			service.insertBcode(bcode);
 			return new ResponseEntity<String>("insert_success",HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("insert_fail",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@DeleteMapping(value = "/{spaceid}/bcode/{bcodeid}")
+	public ResponseEntity<String> deleteBcode(@PathVariable int bcodeid){
+		try {
+			service.deleteBcode(bcodeid);
+			System.out.println("삭제완료");
+			return new ResponseEntity<String>("delete_success",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("delete_fail",HttpStatus.BAD_REQUEST);
 		}
 	}
 }

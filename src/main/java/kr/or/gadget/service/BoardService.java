@@ -127,4 +127,16 @@ public class BoardService {
 		System.out.println("프로시져 호출완료");
 		return num;
 	}
+	
+	public int deleteBcode(int bcodeid) {
+		BoardDao boarddao = sqlsession.getMapper(BoardDao.class);
+		int result = 0;
+		try {
+			result += boarddao.deleteBcode(bcodeid);
+			result += boarddao.deleteBcodeFromSide(bcodeid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

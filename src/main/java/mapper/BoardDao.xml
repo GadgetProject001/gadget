@@ -92,4 +92,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		call insert_side(#{bcodeid}, #{bcodename})
 		}
 	</insert>
+	<delete id="deleteBcode">
+		delete from bcode where bcodeid = #{bcodeid}
+	</delete>
+	<delete id="deleteBcodeFromSide">
+		delete from side where bcodeid = #{bcodeid}
+	</delete>
 </mapper>
