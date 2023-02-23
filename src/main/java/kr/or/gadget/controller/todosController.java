@@ -13,11 +13,12 @@ import kr.or.gadget.dao.TodoDao;
 import kr.or.gadget.dto.State;
 import kr.or.gadget.dto.TodoContent;
 import kr.or.gadget.dto.TodoContentJoinState;
+import kr.or.gadget.dto.TodoContentJoinStateJoinUsers;
 import kr.or.gadget.service.TodoService;
 
 @RestController
 @RequestMapping("/todos")
-public class TodosController {
+public class todosController {
 	
 	private TodoService todoService;
 	
@@ -75,14 +76,15 @@ public class TodosController {
 	 }; */
 	
 	@RequestMapping(value="/todoContent/{contentid}", method=RequestMethod.GET)
-	public TodoContentJoinState selectTodoContent(@PathVariable int contentid) {
+	public TodoContentJoinStateJoinUsers selectTodoContent(@PathVariable int contentid) {
+		System.out.println(todoService.selectTodoContent(contentid));
 		return todoService.selectTodoContent(contentid);
 	}
 	
 	@RequestMapping(value="/todoContent", method=RequestMethod.POST)
-	public int insertTodoContent(@RequestBody TodoContentJoinState todoContentJoinState) {
-		System.out.println(todoContentJoinState);
-		return todoService.insertTodoContent(todoContentJoinState);
+	public int insertTodoContent(@RequestBody TodoContentJoinStateJoinUsers todoContentJoinStateJoinUsers) {
+		System.out.println(todoContentJoinStateJoinUsers);
+		return todoService.insertTodoContent(todoContentJoinStateJoinUsers);
 	}
 	
 	/* 	 public int updateTodoContent(TodoContentJoinState todoContentJoinState){
