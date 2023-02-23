@@ -59,7 +59,7 @@ public class ChatService {
 			insertOk = (chatdao.insertchat(chat) >0) ? true : false;
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return insertOk;
 	}

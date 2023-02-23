@@ -111,7 +111,7 @@ public class HandlerChat extends TextWebSocketHandler {
 			id.put(session,msgs[2]);		// 어떤 세션이 어떤 아이디를 가지고 있는지 기록 >> DB 작업할떄 쓰는거
 			// msgs[2] 가지고 DB에서 조회한 이름 
 			String namestr = service.getNameByUserId(msgs[2]);
-			nickname.put(session,"namestr");		// 어떤 세션이 어떤 이름을 가지고 있는지 기록 >> 메세지 보낼때
+			nickname.put(session,namestr);		// 어떤 세션이 어떤 이름을 가지고 있는지 기록 >> 메세지 보낼때
 			connect.put(session,msgs[1]);//세션이 몇번방에 있는지 기록
 		} else if(msgs[0].equals("메세지")) {
 			String roomid = connect.get(session);
@@ -144,7 +144,7 @@ public class HandlerChat extends TextWebSocketHandler {
 					String str = "<li class='" + ((s == session) ? "me" : "you") +"'>"+
 						                "<di class='entete'>"+
 						                "<h3>" + formattedDate + "</h3>"+
-						                "<h2>" + id_str + "</h2>"+
+						                "<h2>" + nickname.get(session) + "</h2>"+
 						                "<span class='status " + ((s == session) ? "blue" : "green") +"'></span>"+
 						            "</div>"+
 						            "<div class='message'> "+
