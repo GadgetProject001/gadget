@@ -45,19 +45,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where spaceid = #{spaceid} and statename = #{statename};
 	</update>
 	
-	<select id="selectTodoContent" resultType="kr.or.gadget.dto.TodoContentJoinState">
-		select td.contentid, td.title, td.content, td.startdate, td.enddate, st.statename, DATE_FORMAT(td.wdate, '%Y-%m-%d %T') as wdate
-		from todocontent as td inner join state as st
-		where td.stateid = st.stateid and td.contentid = #{td.contentid};
+	<select id="selectTodoContent" resultType="kr.or.gadget.dto.TodoContentJoinStateJoinUsers">
+		select td.contentid, td.title, td.content, td.startdate, td.enddate, st.statename, DATE_FORMAT(td.wdate, '%Y-%m-%d %T') as wdate, us.username, us.imgurl, us.userid
+		from todocontent as td inner join state as st inner join users as us
+		where td.stateid = st.stateid and td.contentid = #{td.contentid} and td.userid = us.userid;
 	</select>
 	
-	<insert id="insertTodoContent" parameterType="kr.or.gadget.dto.TodoContentJoinState">
-	 	insert into todocontent (title, content, wdate, startdate, enddate, stateid)
+	<insert id="insertTodoContent" parameterType="kr.or.gadget.dto.TodoContentJoinStateJoinUsers">
+	 	insert into todocontent (title, content, wdate, startdate, enddate, stateid, userid)
 		values (#{title}, #{content}, current_timestamp(),#{startdate}, #{enddate}, (
 				select stateid
 				from state
 				where spaceid = #{spaceid} and statename=#{statename}
-		));
+		        ), #{userid}
+		);
 	</insert>
 	<update id="updateTodoContent" parameterType="kr.or.gadget.dto.TodoContentJoinState">
 	    update todocontent

@@ -12,6 +12,7 @@ import kr.or.gadget.dto.Calendar;
 import kr.or.gadget.dto.State;
 import kr.or.gadget.dto.TodoContent;
 import kr.or.gadget.dto.TodoContentJoinState;
+import kr.or.gadget.dto.TodoContentJoinStateJoinUsers;
 
 @Service
 public class TodoService {
@@ -45,14 +46,14 @@ public class TodoService {
 	   return todoDao.updateStateIndex(state);
 	 };
 	 
-	 public TodoContentJoinState selectTodoContent(int contentid){
+	 public TodoContentJoinStateJoinUsers selectTodoContent(int contentid){
 	   TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
 	   return todoDao.selectTodoContent(contentid);
 	 };
 	   
-	 public int insertTodoContent(TodoContentJoinState todoContentJoinState){
+	 public int insertTodoContent(TodoContentJoinStateJoinUsers todoContentJoinStateJoinUsers){
 	    TodoDao todoDao = sqlsession.getMapper(TodoDao.class);
-	    return todoDao.insertTodoContent(todoContentJoinState);
+	    return todoDao.insertTodoContent(todoContentJoinStateJoinUsers);
 	 };
 	 
 	 public int updateTodoContent(TodoContentJoinState todoContentJoinState){
