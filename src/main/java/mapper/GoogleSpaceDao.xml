@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.gadget.dao.GoogleSpaceDao">
+	<select id="selectListByKind" parameterType="kr.or.gadget.dto.GoogleSpace" resultType="kr.or.gadget.dto.GoogleSpace">
+		SELECT gspaceid, gtitle, kind, url, spaceid
+		FROM googlespace
+		where spaceid = #{spaceid} and kind = #{kind}
+	</select>
+	<select id="selectByGspaceid" resultType="kr.or.gadget.dto.GoogleSpace">
+		SELECT gspaceid, gtitle, kind, url, spaceid
+		FROM googlespace
+		where gspaceid = #{gspaceid}
+	</select>
+	<insert id="insertGspace" parameterType="kr.or.gadget.dto.GoogleSpace">
+		insert into googlespace(gtitle, kind, url, spaceid)
+		values(#{gtitle},#{kind},#{url},#{spaceid})
+	</insert>
+	<update id="updateGspace" parameterType="kr.or.gadget.dto.GoogleSpace">
+		update googlespace
+		set gtitle=#{gtitle}, kind=#{kind}, url=#{url}, spaceid=#{spaceid}
+		where gspaceid=#{gspaceid}
+	</update>
+	<delete id="deleteGspace">
+		delete from googlespace where gspaceid= #{gspaceid}
+	</delete>
+</mapper>
