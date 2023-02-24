@@ -22,6 +22,12 @@ public class GoogleSpaceService {
 		List<GoogleSpace> list = dao.selectListByKind(googleSpace);
 		return list;
 	};
+	//특정화면
+	public GoogleSpace selectByGspaceid(int gspaceid) {
+		GoogleSpaceDao dao = sqlsession.getMapper(GoogleSpaceDao.class);
+		GoogleSpace googleSpace = dao.selectByGspaceid(gspaceid);
+		return googleSpace;
+	}
 	//추가
 	public void insertGspace(GoogleSpace googleSpace) {
 		GoogleSpaceDao dao = sqlsession.getMapper(GoogleSpaceDao.class);

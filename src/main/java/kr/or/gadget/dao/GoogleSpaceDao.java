@@ -7,6 +7,8 @@ import kr.or.gadget.dto.GoogleSpace;
 public interface GoogleSpaceDao {
 	//특정 종류의 리스트 항목 출력
 	List<GoogleSpace> selectListByKind(GoogleSpace googleSpace);
+	//특정 페이지
+	GoogleSpace selectByGspaceid(int gspaceid);
 	//추가
 	void insertGspace(GoogleSpace googleSpace);
 	//수정

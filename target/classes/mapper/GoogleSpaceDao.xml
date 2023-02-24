@@ -8,6 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM googlespace
 		where spaceid = #{spaceid}
 	</select>
+	<select id="selectByGspaceid" resultType="kr.or.gadget.dto.GoogleSpace">
+		SELECT gspaceid, gtitle, kind, url, spaceid
+		FROM googlespace
+		where gspaceid = #{gspaceid}
+	</select>
 	<insert id="insertGspace" parameterType="kr.or.gadget.dto.GoogleSpace">
 		insert into googlespace(gtitle, kind, url, spaceid)
 		values(#{gtitle},#{kind},#{url},#{spaceid})
