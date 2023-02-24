@@ -18,7 +18,7 @@ import kr.or.gadget.service.TodoService;
 
 @RestController
 @RequestMapping("/todos")
-public class TodosController {
+public class todosController {
 	
 	private TodoService todoService;
 	
@@ -59,6 +59,7 @@ public class TodosController {
 	 }; */
 	/* State index 변경하기
 	 * http://localhost:8080/gadget/todos/order */
+	
 	@RequestMapping(value="/order", method=RequestMethod.PATCH)
 	public int updateStateIndex(@RequestBody State state) {
 		return todoService.updateStateIndex(state);

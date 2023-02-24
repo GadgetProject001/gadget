@@ -7,7 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 해당 방의 기존 메시지 읽어오기 List<Chat> chatList(int spaceid); -->
 	<select id="chatList" resultType="kr.or.gadget.dto.Chat">
-		select * from message where spaceid = #{spaceid} order by chatid
+		select u.username, m.userid , DATE_FORMAT( wdate , '%Y-%m-%d %H:%i:%s' ) as wdate ,m.content 
+		 from message m join users u
+		 on m.userid = u.userid
+		 where spaceid = #{spaceid} order by chatid
 	</select>
 	
 	

@@ -264,7 +264,7 @@ main footer a{
         <aside>
             <header>
                 <input type="text" placeholder="search">
-                <button type="button" class="btn btn-primary">내용 불러오기</button>
+                
             </header>
         </aside>
         <main>
@@ -299,59 +299,40 @@ main footer a{
 		const userid = '${param.userid}';
 		const workspace ='${param.spaceid}';
 		
-/* 		$.ajax({
-			type: "post",
-			url: "receiveuserid.do",
-			data: {
-				userid : 'userid'
-			},
-			success: function(data1){
-				
-			}
-		}); */
 		
-		
-		var webSocket = {
-			init: function(param) {
-				this._url = param.url;
-				this._initSocket();
-			},
-			sendChat: function() {//메세지 보내기 
-				//&#47;
-				this._sendMessage("메세지/"+$('#message').val());
-				$('#message').val('');
-								
-			},
-			receiveMessage: function(str) {//메세지 받기
-				$('#chat').append(str);
-			},
-			closeMessage: function(str) {
-				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
-			},
-			disconnect: function() {
-				this._socket.close();
-			},
-			_initSocket: function() {
-				this._socket = new SockJS(this._url);
-				this._socket.onmessage = function(evt) {
-					webSocket.receiveMessage(evt.data);
-				};
-				this._socket.onclose = function(evt) {
-					webSocket.closeMessage(evt.data);
-				}
-				this._socket.onopen = function(evt){
-					let str = "입장/" + workspace + "/" + userid; 
-					webSocket._sendMessage(str);
-				}
-			},
-			_sendMessage: function(str) {
-				this._socket.send(str);
-			}
-		};
-	</script>	
-	<script type="text/javascript">
 		$(document).ready(function() {
 			webSocket.init({ url: '<c:url value="/chat" />' });			
+				
+				$.ajax({
+					type : "POST",
+					url : "/chat/room/premessage",
+					data : {
+						"workspace" : workspace
+					},
+					success: function(data){
+						/*
+							class DTO{
+							 int a;
+							 String b;
+							}
+							return List<DTO>;
+							
+							>>
+							
+							data = [{a : 1, b:"이름"},{a : 1, b:"이름"},{a : 1, b:"이름"}]
+							
+							$(data).each((index,chat)=>{
+								console.log(chat.a)
+							})
+						*/
+						
+						if(){
+							
+						}else{
+							
+						}
+					}
+				});
 		});
 
 		/* load: function PreMessage(roomno){//불러오기?
@@ -400,5 +381,46 @@ main footer a{
 				
 			});
 		}, */
+		
+		
+		var webSocket = {
+			init: function(param) {
+				this._url = param.url;
+				this._initSocket();
+			},
+			sendChat: function() {//메세지 보내기 
+				//&#47;
+				this._sendMessage("메세지/"+$('#message').val());
+				$('#message').val('');
+								
+			},
+			receiveMessage: function(str) {//메세지 받기
+				$('#chat').append(str);
+			},
+			closeMessage: function(str) {
+				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
+			},
+			disconnect: function() {
+				this._socket.close();
+			},
+			_initSocket: function() {
+				this._socket = new SockJS(this._url);
+				this._socket.onmessage = function(evt) {
+					webSocket.receiveMessage(evt.data);
+				};
+				this._socket.onclose = function(evt) {
+					webSocket.closeMessage(evt.data);
+				}
+				this._socket.onopen = function(evt){
+					let str = "입장/" + workspace + "/" + userid; 
+					webSocket._sendMessage(str);
+				}
+			},
+			_sendMessage: function(str) {
+				this._socket.send(str);
+			}
+		};
+
+		
 	</script>
 </html>
