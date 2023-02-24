@@ -44,6 +44,18 @@ public class GoogleSpaceCotroller {
 			return new ResponseEntity<List<GoogleSpace>>(list,HttpStatus.BAD_REQUEST);
 		}
 	};
+	//특정 종류 페이지 출력
+	@GetMapping(value = "/{gspaceid}")
+	public ResponseEntity<GoogleSpace> selectListByKind(@PathVariable("gspaceid") int gspaceid) {
+		GoogleSpace googleSpace = new GoogleSpace();
+		try {
+			googleSpace = service.selectByGspaceid(gspaceid);
+			return new ResponseEntity<GoogleSpace>(googleSpace,HttpStatus.OK);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return new ResponseEntity<GoogleSpace>(googleSpace,HttpStatus.BAD_REQUEST);
+		}
+	};
 	//추가한 종류의 gspace 리스트로 반환 ==> 3줄로 출력하면 각종류당 axios로 각각 불러와야 함
 	@PostMapping(value = "/row")
 	public ResponseEntity<List<GoogleSpace>> insertGspace(@RequestBody GoogleSpace googleSpace) {
@@ -53,7 +65,7 @@ public class GoogleSpaceCotroller {
 			list = service.selectListByKind(googleSpace);
 			return new ResponseEntity<List<GoogleSpace>>(list,HttpStatus.OK);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			return new ResponseEntity<List<GoogleSpace>>(list,HttpStatus.BAD_REQUEST);
 		}
 	};
