@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectListByKind" parameterType="kr.or.gadget.dto.GoogleSpace" resultType="kr.or.gadget.dto.GoogleSpace">
 		SELECT gspaceid, gtitle, kind, url, spaceid
 		FROM googlespace
-		where spaceid = #{spaceid}
+		where spaceid = #{spaceid} and kind = #{kind}
 	</select>
 	<select id="selectByGspaceid" resultType="kr.or.gadget.dto.GoogleSpace">
 		SELECT gspaceid, gtitle, kind, url, spaceid
