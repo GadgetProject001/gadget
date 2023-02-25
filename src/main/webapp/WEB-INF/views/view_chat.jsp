@@ -5,7 +5,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>웹소켓 채팅</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-3.6.3.js"
+  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+  crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
 	<!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -14,9 +18,6 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 <!--   <link rel="stylesheet" type="text/css" href="./css/style.css"> -->
 <!--     jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
@@ -298,91 +299,7 @@ main footer a{
 <script type="text/javascript">
 		const userid = '${param.userid}';
 		const workspace ='${param.spaceid}';
-		
-		
-		$(document).ready(function() {
-			webSocket.init({ url: '<c:url value="/chat" />' });			
-				
-				$.ajax({
-					type : "POST",
-					url : "/chat/room/premessage",
-					data : {
-						"workspace" : workspace
-					},
-					success: function(data){
-						/*
-							class DTO{
-							 int a;
-							 String b;
-							}
-							return List<DTO>;
-							
-							>>
-							
-							data = [{a : 1, b:"이름"},{a : 1, b:"이름"},{a : 1, b:"이름"}]
-							
-							$(data).each((index,chat)=>{
-								console.log(chat.a)
-							})
-						*/
-						
-						if(){
-							
-						}else{
-							
-						}
-					}
-				});
-		});
 
-		/* load: function PreMessage(roomno){//불러오기?
-			let requestdata = {"roomno" : roomno};
-			let data = JSON.stringify(requestdata);
-			$.ajax({
-				type: "post",
-				url: "preRoom.htm",
-				data: data,
-				dataType: "text",
-				contentType: "application/json; charset=utf-8",
-				success: function(data1){
-					
-					let data =JSON.parse(data1);
-					
-					$.each(data, function(){
-						if(userid == username){
-							$('#chat').append(
-									'<li class="me">'
-									+'<div class="entete">'
-									+'<h3>10:12AM, Today</h3>'
-									+'&nbsp;'
-									+'<h2> Vincent</h2>'
-									+'<span class="status blue"></span>'
-									+'</div>'
-									+'<div class = "message">'+ str + '</div>' 
-									+ '</li>'
-									);	
-							} else{
-								$('#chat').append(
-										'<li class="you">'
-										+'<div class="entete">'
-										+'<h3>10:12AM, Today</h3>'
-										+'&nbsp;'
-										+'<h2> Vincent</h2>'
-										+'<span class="status blue"></span>'
-										+'</div>'
-										+'<div class = "message">'+ str + '</div>' 
-										+ '</li>'
-										);	
-								
-							}
-						
-					});
-				}
-				
-			});
-		}, */
-		
-		
 		var webSocket = {
 			init: function(param) {
 				this._url = param.url;
@@ -421,6 +338,103 @@ main footer a{
 			}
 		};
 
+
 		
+		
+		$(document).ready(function() {		
+			loadChat()
+			webSocket.init({ url: '<c:url value="/chat" />' });	
+			
+			
+/* 				$.ajax({
+					type : "POST",
+					url : "/chat/room/premessage",
+					data : {
+						"workspace" : workspace
+					},
+					success: function(data){
+						
+						$(data).each((index,chat)=>{
+							console.log(chat)
+							
+							let me = "<li class='me'>"+
+							                "<di class='entete'>"+
+							                "<h3>" + chat.wdate + "</h3>"+
+							                "<h2>" + chat.username + "</h2>"+
+							                "<span class='status blue'></span>"+
+							            "</div>"+
+							            "<div class='message'> "+
+							                chat.content +
+							            "</div>"+
+							        "</li>"; 
+							        
+							 let you ="<li class='you'>"+
+							                "<di class='entete'>"+
+							                "<h3>" + chat.wdate + "</h3>"+
+							                "<h2>" + chat.username + "</h2>"+
+							                "<span class='status green'></span>"+
+							            "</div>"+
+							            "<div class='message'> "+
+							                chat.content +
+							            "</div>"+
+							        "</li>";        
+							if(chat.userid == userid){
+								$('#chat').append(me)
+							}else{
+								$('#chat').append(you)
+							}
+							
+						})//each end
+					},//success 끝
+					error : ()=>{
+						
+					}
+				});//ajax 끝 */
+		}); //readyfunction 끝
+		function loadChat(){
+			$.ajax({
+				'url' : 'premessage',
+				'type' : 'post',
+				'data' : {
+					"workspace" : workspace
+				},
+				'success' : (data)=>{
+					$(data).each((index,chat)=>{
+						console.log(chat)
+						
+						let me = "<li class='me'>"+
+						                "<di class='entete'>"+
+						                "<h3>" + chat.wdate + "</h3>"+
+						                "<h2>" + chat.username + "</h2>"+
+						                "<span class='status blue'></span>"+
+						            "</div>"+
+						            "<div class='message'> "+
+						                chat.content +
+						            "</div>"+
+						        "</li>"; 
+						        
+						 let you ="<li class='you'>"+
+						                "<di class='entete'>"+
+						                "<h3>" + chat.wdate + "</h3>"+
+						                "<h2>" + chat.username + "</h2>"+
+						                "<span class='status green'></span>"+
+						            "</div>"+
+						            "<div class='message'> "+
+						                chat.content +
+						            "</div>"+
+						        "</li>";        
+						if(chat.userid == userid){
+							$('#chat').append(me)
+						}else{
+							$('#chat').append(you)
+						}
+						
+					})//each end
+				},
+				'error' : ()=>{
+					
+				}
+			})
+		}
 	</script>
 </html>

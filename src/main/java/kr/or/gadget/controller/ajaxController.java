@@ -21,8 +21,14 @@ public class ajaxController {
 	@PostMapping("premessage")
 	public List<Chat> chatList (@RequestParam ("workspace") int spaceid){
 		
+		List<Chat> chatlist =null;
+		try {
+			chatlist = chatservice.Chatlist(spaceid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		return null;
+		return chatlist;
 	}
 	
 }
