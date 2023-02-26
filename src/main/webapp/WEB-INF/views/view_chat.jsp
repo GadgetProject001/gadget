@@ -169,7 +169,8 @@ main header h3{
 	margin:0;
 	list-style-type:none;
 	overflow-y:scroll;
-	height:535px;
+	height:645px;
+	width :1120px;
 	border-top:2px solid #fff;
 	border-bottom:2px solid #fff;
 }
@@ -222,7 +223,9 @@ main header h3{
 		border-color: transparent transparent #6fbced transparent;
 		margin-left:375px;
 }
-
+.msg_send_btn{
+	margin-left:1040px;
+}
 main footer{
 	height:155px;
 	padding:20px 30px 10px 20px;
@@ -231,7 +234,7 @@ main footer textarea{
 	resize:none;
 	border:none;
 	display:block;
-	width:100%;
+	width:1070px;
 	height:80px;
 	border-radius:3px;
 	padding:20px;
@@ -264,7 +267,9 @@ main footer a{
     <div id="container" width="100%" height="100%">
         <aside>
             <header>
-                <input type="text" placeholder="search">
+                <div>
+                	<p style="">김찬수</p>
+                </div>
                 
             </header>
         </aside>
@@ -295,6 +300,7 @@ main footer a{
                   aria-hidden="true"></i></button>
             </div>
           </div> -->
+          
 </body>
 <script type="text/javascript">
 		const userid = '${param.userid}';
@@ -313,6 +319,7 @@ main footer a{
 			},
 			receiveMessage: function(str) {//메세지 받기
 				$('#chat').append(str);
+				scrollToBottom();
 			},
 			closeMessage: function(str) {
 				$('#divChatData').append('<div>' + '연결 끊김 : ' + str + '</div>');
@@ -338,7 +345,28 @@ main footer a{
 			}
 		};
 
+/* 
+            $(document).ready(function(){
+                 
+                    const username = generateRandomNickname();
+                // $(function() {
+                    // 메시지 입력 폼에 포커스가 갔을 때, 스크롤바를 아래로 내려줍니다.
+                    
 
+                    // 메시지 전송 버튼을 클릭했을 때, 메시지를 추가하고 스크롤바를 아래로 내려줍니다.
+                    // $("#button-send").on("click", function() {
+                    //     var message = $("#msg").val();
+                    //     if (message.trim() === "") return;
+
+                    //     var chatMessage = "<div class='message'>" + message + "</div>";
+                    //     $("#msgArea").append(chatMessage);
+                    //     $("#msg").val("");
+                    //     scrollToBottom();
+                    // });
+
+                    // 메시지를 추가할 때마다 스크롤바를 아래로 내려줍니다.
+                    
+                // }); */
 		
 		
 		$(document).ready(function() {		
@@ -436,5 +464,17 @@ main footer a{
 				}
 			})
 		}
+		
+/* 		$("#message").on("focus", function() {
+            scrollToBottom();
+        }); */
+		
+		function scrollToBottom() {
+            console.log("나다!!!")
+            $("#chat").animate({ scrollTop: $("#chat").prop("scrollHeight") }, 500);
+        }
+		
+		
+		
 	</script>
 </html>

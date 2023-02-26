@@ -142,7 +142,7 @@ public class HandlerChat extends TextWebSocketHandler {
 		        int i = 0;
 				for(WebSocketSession s : map.get(roomid)) {
 					String str = "<li class='" + ((s == session) ? "me" : "you") +"'>"+
-						                "<di class='entete'>"+
+						                "<div class='entete'>"+
 						                "<h3>" + formattedDate + "</h3>"+
 						                "<h2>" + nickname.get(session) + "</h2>"+
 						                "<span class='status " + ((s == session) ? "blue" : "green") +"'></span>"+
